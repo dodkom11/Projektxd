@@ -18,10 +18,10 @@ public class Employee {
     @Column(name = "employment_date")
     private Date employmentDate;
     private String position;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
@@ -37,5 +37,9 @@ public class Employee {
         this.employmentDate = employmentDate;
         this.position = position;
         this.address = address;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 }

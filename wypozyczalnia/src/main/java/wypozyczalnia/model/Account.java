@@ -16,15 +16,17 @@ public class Account {
     private Long id;
     private String username;
     private String password;
-    private String permissions;
     @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "permission_id")
+    private Permission permission;
+    @ManyToOne
+    @JoinColumn(name = "bracket_id")
+    private Bracket bracket;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private Employee employee;
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    private Task task;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Task> task = new ArrayList<>();
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Comment> comment = new ArrayList<>();
 
@@ -32,10 +34,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(String username, String password, String permissions, Group group) {
+    public Account(String username, String password, Permission permission, Bracket bracket) {
         this.username = username;
         this.password = password;
-        this.permissions = permissions;
-        this.group = group;
+        this.permission = permission;
+        this.bracket = bracket;
     }
 }

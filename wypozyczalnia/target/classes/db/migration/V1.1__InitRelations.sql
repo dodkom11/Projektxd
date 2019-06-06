@@ -2,7 +2,9 @@ alter table client
     add foreign key(address_id) references address(id);
 
 alter table account
-    add foreign key(group_id) references `group`(id);
+    add foreign key(bracket_id) references bracket(id);
+alter table account
+    add foreign key(permission_id) references permission(id);
 
 alter table comment
     add foreign key(account_id) references account(id);
@@ -22,6 +24,10 @@ alter table rent
     add foreign key(car_id) references car(id);
 
 alter table task
-    add foreign key(group_id) references `group`(id);
+    add foreign key(bracket_id) references bracket(id);
 alter table task
     add foreign key(assigned_person) references account(id);
+alter table task
+    add foreign key(state_id) references state(id);
+alter table task
+    add foreign key(priority_id) references priority(id);

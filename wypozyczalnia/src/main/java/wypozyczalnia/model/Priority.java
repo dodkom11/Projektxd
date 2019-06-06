@@ -10,21 +10,18 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @Data
-public class Group {
+public class Priority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "leader")
-    private Long leader;
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
-    private List<Account> account = new ArrayList<>();
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    private String name;
+    @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL)
     private List<Task> task = new ArrayList<>();
 
-    public Group() {
+    public Priority() {
     }
 
-    public Group(Long leader) {
-        this.leader = leader;
+    public Priority(String name) {
+        this.name = name;
     }
 }

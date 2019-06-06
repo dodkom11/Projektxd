@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,10 +26,10 @@ public class Address {
     @Column(name = "telephone_number")
     private Long telephoneNumber;
     private String email;
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private Client Client;
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private Employee employee;
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private List<Client> client = new ArrayList<>();
+    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
+    private List<Employee>  employee = new ArrayList<>();
 
     public Address() {
     }

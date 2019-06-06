@@ -13,14 +13,19 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     private String content;
-    private String status;
-    private String priority;
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "state_id")
     @ManyToOne
-    private Group group;
+    private State state;
+    @JoinColumn(name = "priority_id")
+    @ManyToOne
+    private Priority priority;
+    @JoinColumn(name = "bracket_id")
+    @ManyToOne
+    private Bracket bracket;
     @JoinColumn(name = "assigned_person")
-    @OneToOne
+    @ManyToOne
     private Account account;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
@@ -29,11 +34,12 @@ public class Task {
     public Task() {
     }
 
-    public Task(String content, String status, String priority, Group group, Account account) {
+    public Task(String title, String content, State state, Priority priority, Bracket bracket, Account account) {
+        this.title = title;
         this.content = content;
-        this.status = status;
+        this.state = state;
         this.priority = priority;
-        this.group = group;
+        this.bracket = bracket;
         this.account = account;
     }
 }

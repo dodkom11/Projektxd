@@ -15,7 +15,7 @@ public enum SceneType {
     ADMIN_MANAGE_WORKERS("admin/adminManageWorkers"),
 
     // WORKER
-    WORKER_MAIN("worker/mainWorker"),
+    WORKER_MAIN("worker/workerMain"),
     WORKER_MANAGE_PARCELS("worker/workerManageParcels"),
     WORKER_MANAGE_GIFT_ORDERS("worker/workerManageGiftOrders"),
     WORKER_EDIT_GIFT("worker/workerEditGift"),

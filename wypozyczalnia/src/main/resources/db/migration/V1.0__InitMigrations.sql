@@ -1,3 +1,21 @@
+CREATE TABLE `permission` (
+    id              bigint NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(15) ,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE `priority` (
+    id              bigint NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(15) ,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE `state` (
+    id              bigint NOT NULL AUTO_INCREMENT,
+    name            VARCHAR(15) ,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE `car` (
     id              bigint NOT NULL AUTO_INCREMENT,
     brand           VARCHAR(60) NOT NULL,
@@ -30,18 +48,18 @@ CREATE TABLE `client` (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE `group` (
+CREATE TABLE `bracket` (
     id     bigint NOT NULL AUTO_INCREMENT,
     leader bigint,
     PRIMARY KEY (id)
 );
 
 CREATE TABLE `account` (
-    id          bigint NOT NULL AUTO_INCREMENT,
-    username       VARCHAR(40),
-    password    VARCHAR(200),
-    permissions VARCHAR(15),
-    group_id    bigint,
+    id            bigint NOT NULL AUTO_INCREMENT,
+    username      VARCHAR(40),
+    password      VARCHAR(200),
+    permission_id bigint,
+    bracket_id    bigint,
     PRIMARY KEY (id)
 );
 
@@ -58,7 +76,7 @@ CREATE TABLE `employee` (
     salary          double DEFAULT 0,
     employment_date DATETIME,
     position        VARCHAR(30),
-    address_id       bigint,
+    address_id      bigint,
     account_id      bigint,
     PRIMARY KEY (id)
 );
@@ -75,10 +93,11 @@ CREATE TABLE `rent` (
 
 CREATE TABLE `task` (
     id          bigint NOT NULL AUTO_INCREMENT,
+    title       VARCHAR(50),
     content     VARCHAR(150),
-    status      VARCHAR(10),
-    priority    VARCHAR(10),
-    group_id    bigint,
+    state_id      bigint,
+    priority_id    bigint,
+    bracket_id    bigint,
     assigned_person  bigint,
     PRIMARY KEY (id)
 );
