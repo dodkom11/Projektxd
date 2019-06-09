@@ -12,3 +12,7 @@
 .my-text {
     -fx-fill: white;
 }
+.my-vbox {
+    -fx-background-color: #04a7ff;
+    -fx-background-radius: 100;
+}

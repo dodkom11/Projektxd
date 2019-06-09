@@ -34,4 +34,5 @@ public class Car {
         this.type = type;
         this.price = price;
     }
+
 }

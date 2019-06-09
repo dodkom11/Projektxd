@@ -2,6 +2,7 @@ package wypozyczalnia.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ColumnDefault("true")
+    private Boolean active = true;
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;

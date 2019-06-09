@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.worker.ClientManagementController">
+    <children>
+        <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
+            <children>
+                <VBox prefHeight="590.0" prefWidth="200.0" styleClass="sidebar">
+                    <children>
+                        <Label fx:id="panelLabel" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00A2D3;" text="Worker Panel" textFill="WHITE">
+                            <padding>
+                                <Insets left="10.0" />
+                            </padding>
+                            <font>
+                                <Font name="Ebrima" size="18.0" />
+                            </font>
+                        </Label>
+                        <HBox onMouseClicked="#tasksClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-conference-foreground-selected-filled-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Tasks" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-customer-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Clients" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#ourCarsClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-sedan-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Our cars" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#rentClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-purchase-order-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Rent a car" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-bar-chart-filled-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Diagrams" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox onMouseClicked="#logoutClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-exit-32.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label prefHeight="32.0" prefWidth="200.0" text="Logout" textFill="#7c7c7c">
+                                    <font>
+                                        <Font name="Calibri Light" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="10.0" top="5.0" />
+                                    </HBox.margin>
+                                    <padding>
+                                        <Insets bottom="5.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Pane fx:id="panexD" layoutX="200.0" prefHeight="80.0" prefWidth="590.0" style="-fx-background-color: #E2E2E2;">
+                    <children>
+                        <AnchorPane layoutX="514.0" layoutY="-2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="32.0" styleClass="btnMenu">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" onMouseClicked="#minimizeBtnClicked" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/substract.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="558.0" layoutY="-2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="32.0" styleClass="btnMenu">
+                            <children>
+                                <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="-2.0" onMouseClicked="#closeBtnClicked" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../icons/icons8-multiply-filled-32.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+                        <Label fx:id="mainTitleLabel" layoutY="23.0" text="Tasks" textFill="#7c7c7c">
+                            <padding>
+                                <Insets left="20.0" />
+                            </padding>
+                            <font>
+                                <Font name="Calibri Bold" size="30.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            <ScrollPane layoutX="200.0" layoutY="80.0" prefHeight="397.0" prefWidth="590.0">
+              <content>
+                <AnchorPane fx:id="clientPane" minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="587.0">
+                     <children>
+                        <Pane fx:id="addClientPane" prefHeight="388.0" prefWidth="590.0" visible="false">
+                           <children>
+                              <VBox layoutX="253.0" layoutY="21.0" prefHeight="316.0" prefWidth="260.0" style="-fx-background-color: #e2edff; -fx-background-radius: 25;">
+                                 <children>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="name" prefHeight="32.0" prefWidth="294.0" promptText="name" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="surname" prefHeight="32.0" prefWidth="294.0" promptText="surname" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="pesel" prefHeight="32.0" prefWidth="294.0" promptText="pesel" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="city" prefHeight="32.0" prefWidth="294.0" promptText="city" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="street" prefHeight="32.0" prefWidth="294.0" promptText="street" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="houseNumber" prefHeight="32.0" prefWidth="294.0" promptText="house number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="zipCode" prefHeight="32.0" prefWidth="294.0" promptText="zip code" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="telNumber" prefHeight="32.0" prefWidth="294.0" promptText="telephone number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="eMail" prefHeight="32.0" prefWidth="294.0" promptText="e-mail" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <Button layoutX="92.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#confirmAddClicked" prefHeight="35.0" prefWidth="109.0" styleClass="btnSignIn" text="Confirm">
+                                 <graphic>
+                                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../icons/icons8-checked-32.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="92.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/icons8-customer-100.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <ListView fx:id="listViewPane" onMouseClicked="#listViewClicked" prefHeight="397.0" prefWidth="581.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <Pane layoutX="200.0" layoutY="476.0" prefHeight="113.0" prefWidth="590.0">
+               <children>
+                  <Button fx:id="addClientBtn" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#addClientClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="Add Client">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icons8-checked-32.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="editClientBtn" layoutX="235.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#editClientClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="Edit Client">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icons8-compose-32.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="deleteClientBtn" layoutX="430.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#deleteClientClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="Delete Client">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icons8-trash-32.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </Pane>
+            </children>
+            <effect>
+                <DropShadow />
+            </effect>
+        </AnchorPane>
+    </children>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</VBox>

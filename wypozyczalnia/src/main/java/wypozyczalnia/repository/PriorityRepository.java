@@ -8,4 +8,5 @@ import wypozyczalnia.model.Priority;
 @Repository
 public interface PriorityRepository extends JpaRepository<Priority, Long> {
     String findById(long id);
+    Priority findByName(String name);
 }

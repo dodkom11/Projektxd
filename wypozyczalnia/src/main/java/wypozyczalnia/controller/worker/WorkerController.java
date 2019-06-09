@@ -4,30 +4,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
+
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import wypozyczalnia.config.StoredData;
+import wypozyczalnia.config.VetoListener;
 import wypozyczalnia.model.*;
 import wypozyczalnia.model.Priority;
 import wypozyczalnia.repository.*;
 import wypozyczalnia.utils.SceneManager;
+import wypozyczalnia.utils.SceneType;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +73,10 @@ public class WorkerController {
     private ListView<Pane> taskComments;
     @FXML
     private TextField taskComment;
+    @FXML
+    private Label panelLabel;
+    @FXML
+    private Label mainTitleLabel;
 
     private Task task;
 
@@ -86,13 +87,21 @@ public class WorkerController {
 
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
+        stage.setOpacity(0.5);
     }
+
 
     @FXML
     void pressed(MouseEvent event){
         x = event.getSceneX();
         y = event.getSceneY();
 
+    }
+    @FXML
+    void released(MouseEvent event){
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.setOpacity(1);
     }
 
     @FXML
@@ -112,17 +121,25 @@ public class WorkerController {
     @FXML
     void toDoClicked(MouseEvent event){
         access = true;
-        fillTask(toDoList);
+        if(toDoList.getSelectionModel().getSelectedItem() != null){
+            fillTask(toDoList);
+        }
     }
     @FXML
     void inProgressClicked(MouseEvent event){
         access = true;
-        fillTask(inProgressList);
+        if(inProgressList.getSelectionModel().getSelectedItem() != null) {
+            fillTask(inProgressList);
+        }
     }
+
+
     @FXML
     void doneClicked(MouseEvent event){
         access = true;
-        fillTask(doneList);
+        if(doneList.getSelectionModel().getSelectedItem() != null) {
+            fillTask(doneList);
+        }
     }
 
     @FXML
@@ -136,7 +153,44 @@ public class WorkerController {
     }
 
     @FXML
+    void confirmClicked(MouseEvent event) {
+
+        task.setContent(taskContent.getText());
+        task.setPriority(priorityRepository.findByName(taskPriority.getSelectionModel().getSelectedItem()));
+        task.setTitle(taskTitle.getText());
+        task.setState(stateRepository.findByName(taskStatus.getSelectionModel().getSelectedItem()));
+        String str = taskAssignedPerson.getSelectionModel().getSelectedItem();
+        String[] splited = str.split("\\s+");
+        task.setAccount(accountRepository.findByEmployeeAddressNameAndEmployeeAddressSurname(splited[0], splited[1]));
+        taskRepository.save(task);
+        fillTask();
+        taskPane.setVisible(false);
+    }
+
+    @FXML
+    void logoutClicked(){ sceneManager.show(SceneType.MAIN); }
+    @FXML
+    void clientsClicked(){
+        sceneManager.show(SceneType.WORKER_CLIENT_MANAGEMENET);
+    }
+    @FXML
+    void ourCarsClicked(){
+        sceneManager.show(SceneType.WORKER_OUR_CARS);
+    }
+    @FXML
+    void rentCarClicked(){
+        sceneManager.show(SceneType.WORKER_RENT_CAR);
+    }
+
+    @FXML
     public void initialize() {
+        if(StoredData.isAdmin()){
+            panelLabel.setText("Admin Panel");
+        }else{
+            panelLabel.setText("Worker Panel");
+        }
+        mainTitleLabel.setText("Tasks");
+
         taskPane.setVisible(false);
 
 
@@ -148,7 +202,7 @@ public class WorkerController {
             }
 
         });
-        taskAssignedPerson.getSelectionModel().selectedItemProperty().addListener(new VetoListener<String>(taskPriority.getSelectionModel()) {
+        taskAssignedPerson.getSelectionModel().selectedItemProperty().addListener(new VetoListener<String>(taskAssignedPerson.getSelectionModel()) {
 
             @Override
             protected boolean isInvalidChange(String oldValue, String newValue) {
@@ -157,50 +211,10 @@ public class WorkerController {
 
         });
 
-        Account account = accountRepository.findById(StoredData.getLoggedUserId());
-        List<Task> tasks = taskRepository.findAllByBracket_Id(account.getBracket().getId());
-        List<State> states = stateRepository.findAll();
-        List<Priority> priorities = priorityRepository.findAll();
-        List<Account> accounts = accountRepository.findAllByBracket_Id(account.getBracket().getId());
-
-        ObservableList<String> listOfAccounts = FXCollections.observableArrayList();
-        ObservableList<String> listOfStatus = FXCollections.observableArrayList();
-        ObservableList<String> listOfPriority = FXCollections.observableArrayList();
-
-        for (Account acc : accounts) {
-            listOfAccounts.add(acc.getEmployee().getAddress().getName() + " " + acc.getEmployee().getAddress().getSurname());
-        }
-        for (Priority acc : priorities) {
-            listOfPriority.add(acc.getName());
-        }
-        for (State acc : states) {
-            listOfStatus.add(acc.getName());
-        }
-        if(account.getPermission().getName().equals("worker")){
-            taskContent.setEditable(false);
-            taskTitle.setEditable(false);
-        }
+        fillComboBox();
+        fillTask();
 
 
-        taskAssignedPerson.setItems(listOfAccounts);
-        taskPriority.setItems(listOfPriority);
-        taskStatus.setItems(listOfStatus);
-
-        int x = 0;
-        Label label[] = new Label[tasks.size()];
-        for (Task task1 : tasks) {
-             label[x] = new Label(task1.getTitle());
-             if(task1.getState().getName().equals("to_do")){
-                 toDoList.getItems().add(label[x]);
-             }
-            if(task1.getState().getName().equals("in_progress")){
-                 inProgressList.getItems().add(label[x]);
-            }
-            if(task1.getState().getName().equals("done")){
-                 doneList.getItems().add(label[x]);
-            }
-             x++;
-        }
 
 
     }
@@ -211,25 +225,22 @@ public class WorkerController {
     }
 
     private void fillTask(ListView<Label> list){
-        Employee employee = employeeRepository.findByAccount_Id(StoredData.getLoggedUserId());
-        Account account = accountRepository.findById(StoredData.getLoggedUserId());
 
+        Account account = accountRepository.findById(StoredData.getLoggedUserId());
 
         task = taskRepository.findByTitle(list.getSelectionModel().getSelectedItem().getText());
         Optional<State> state = stateRepository.findById(task.getState().getId());
         Optional<Priority> priority = priorityRepository.findById(task.getPriority().getId());
-        taskAssignedPerson.getSelectionModel().select(employee.getAddress().getName() + " " + employee.getAddress().getSurname());
+        taskAssignedPerson.getSelectionModel().select(accountRepository.findByTask(task).getEmployee().getAddress().getName() + " " + accountRepository.findByTask(task).getEmployee().getAddress().getSurname());
         taskStatus.getSelectionModel().select(state.get().getName());
         taskPriority.getSelectionModel().select(priority.get().getName());
         taskTitle.setText(task.getTitle());
         taskContent.setText(task.getContent());
         taskPane.setVisible(true);
 
+        loadComments();
 
-
-       loadComments();
-
-        if(account.getPermission().getName().equals("worker")){
+        if(account.getPermission().getName().equals("worker") && !StoredData.isLeader()){
              access = false;
         }
     }
@@ -264,6 +275,60 @@ public class WorkerController {
 
         }catch (Exception e){}
 
+    }
+
+    private void fillComboBox(){
+        Account account = accountRepository.findById(StoredData.getLoggedUserId());
+        List<State> states = stateRepository.findAll();
+        List<Priority> priorities = priorityRepository.findAll();
+        List<Account> accounts = accountRepository.findAllByBracket_Id(account.getBracket().getId());
+
+        ObservableList<String> listOfAccounts = FXCollections.observableArrayList();
+        ObservableList<String> listOfStatus = FXCollections.observableArrayList();
+        ObservableList<String> listOfPriority = FXCollections.observableArrayList();
+
+        for (Account acc : accounts) {
+            listOfAccounts.add(acc.getEmployee().getAddress().getName() + " " + acc.getEmployee().getAddress().getSurname());
+        }
+        for (Priority acc : priorities) {
+            listOfPriority.add(acc.getName());
+        }
+        for (State acc : states) {
+            listOfStatus.add(acc.getName());
+        }
+        if(account.getPermission().getName().equals("worker") && !StoredData.isLeader()){
+            taskContent.setEditable(false);
+            taskTitle.setEditable(false);
+        }
+
+        taskAssignedPerson.setItems(listOfAccounts);
+        taskPriority.setItems(listOfPriority);
+        taskStatus.setItems(listOfStatus);
+
+
+    }
+
+    private void fillTask(){
+        doneList.getItems().clear();
+        toDoList.getItems().clear();
+        inProgressList.getItems().clear();
+        Account account = accountRepository.findById(StoredData.getLoggedUserId());
+        List<Task> tasks = taskRepository.findAllByBracket_Id(account.getBracket().getId());
+        int x = 0;
+        Label label[] = new Label[tasks.size()];
+        for (Task task1 : tasks) {
+            label[x] = new Label(task1.getTitle());
+            if(task1.getState().getName().equals("to_do")){
+                toDoList.getItems().add(label[x]);
+            }
+            if(task1.getState().getName().equals("in_progress")){
+                inProgressList.getItems().add(label[x]);
+            }
+            if(task1.getState().getName().equals("done")){
+                doneList.getItems().add(label[x]);
+            }
+            x++;
+        }
     }
 
 }

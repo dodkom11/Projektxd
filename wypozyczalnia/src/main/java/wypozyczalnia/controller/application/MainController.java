@@ -38,8 +38,15 @@ public class MainController {
 
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
+        stage.setOpacity(0.5);
     }
+    @FXML
+    void released(MouseEvent event){
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
 
+        stage.setOpacity(1);
+    }
     @FXML
     void pressed(MouseEvent event){
         x = event.getSceneX();
@@ -87,12 +94,14 @@ public class MainController {
             case "worker":
                 sceneManager.show(SceneType.WORKER_MAIN);
             case "admin":
-                // TO DO
+                sceneManager.show(SceneType.WORKER_MAIN);
             default:
                 failSignInText.setVisible(true);
         }
     }
-
+    @FXML
+    public void initialize() {
+    }
 
     @Autowired
     public void setSceneManager(SceneManager sceneManager) {

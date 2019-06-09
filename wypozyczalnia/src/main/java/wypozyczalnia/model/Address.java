@@ -26,10 +26,10 @@ public class Address {
     @Column(name = "telephone_number")
     private Long telephoneNumber;
     private String email;
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
-    private List<Client> client = new ArrayList<>();
-    @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
-    private List<Employee>  employee = new ArrayList<>();
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    private Client client;
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    private Employee  employee;
 
     public Address() {
     }

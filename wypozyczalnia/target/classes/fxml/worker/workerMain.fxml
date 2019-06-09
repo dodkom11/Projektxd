@@ -18,11 +18,11 @@
 
 <VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.worker.WorkerController">
 <children>
-    <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
+    <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
         <children>
             <VBox prefHeight="590.0" prefWidth="200.0" styleClass="sidebar">
                <children>
-                  <Label prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00A2D3;" text="Worker Panel" textFill="WHITE">
+                  <Label fx:id="panelLabel" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: #00A2D3;" text="Worker Panel" textFill="WHITE">
                      <padding>
                         <Insets left="10.0" />
                      </padding>
@@ -48,14 +48,6 @@
                               <Insets bottom="5.0" left="10.0" top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                           <image>
-                              <Image url="@../../icons/icons8-chevron-left-filled-32.png" />
-                           </image>
-                        </ImageView>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -71,7 +63,7 @@
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label prefHeight="32.0" prefWidth="200.0" text="Clients" textFill="#7c7c7c">
+                        <Label onMouseClicked="#clientsClicked" prefHeight="32.0" prefWidth="200.0" text="Clients" textFill="#7c7c7c">
                            <font>
                               <Font name="Calibri Light" size="18.0" />
                            </font>
@@ -81,7 +73,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                  <HBox onMouseClicked="#ourCarsClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -104,7 +96,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                  <HBox onMouseClicked="#rentCarClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -150,6 +142,29 @@
                         </Label>
                      </children>
                   </HBox>
+                  <HBox onMouseClicked="#logoutClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/icons8-exit-32.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label prefHeight="32.0" prefWidth="200.0" text="Logout" textFill="#7c7c7c">
+                           <font>
+                              <Font name="Calibri Light" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" top="5.0" />
+                           </HBox.margin>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                   <Label prefHeight="38.0" prefWidth="200.0" text="Comments:" textFill="#7c7c7c">
                      <font>
                         <Font size="22.0" />
@@ -158,7 +173,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <ListView fx:id="taskComments" prefHeight="183.0" prefWidth="180.0" style="-fx-background-color: #333645;" stylesheets="@../../styles/listView.css">
+                  <ListView fx:id="taskComments" prefHeight="142.0" prefWidth="180.0" style="-fx-background-color: #333645;" stylesheets="@../../styles/listView.css">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
@@ -239,7 +254,7 @@
                         <ComboBox fx:id="taskPriority" layoutX="67.0" layoutY="247.0" prefWidth="150.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100;" />
                         <Label layoutX="249.0" layoutY="202.0" prefHeight="25.0" prefWidth="95.0" text="Assigned Person:" />
                         <ComboBox fx:id="taskAssignedPerson" layoutX="353.0" layoutY="202.0" prefWidth="150.0" style="-fx-background-color: #2f2f2fa3; -fx-background-radius: 100;" />
-                        <Button layoutX="353.0" layoutY="240.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" styleClass="btnSignIn" text="Confirm Changes">
+                        <Button layoutX="353.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#confirmClicked" prefHeight="35.0" prefWidth="150.0" styleClass="btnSignIn" text="Confirm Changes">
                            <graphic>
                               <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -272,7 +287,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <Label layoutY="23.0" text="Tasks" textFill="#7c7c7c">
+                  <Label fx:id="mainTitleLabel" layoutY="23.0" text="Tasks" textFill="#7c7c7c">
                      <padding>
                         <Insets left="20.0" />
                      </padding>

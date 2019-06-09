@@ -1,4 +1,4 @@
-package wypozyczalnia.controller.worker;
+package wypozyczalnia.config;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

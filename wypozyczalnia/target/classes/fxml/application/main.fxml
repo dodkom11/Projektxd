@@ -17,7 +17,7 @@
 
 <VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.application.MainController">
    <children>
-      <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="590.0" prefWidth="790.0" styleClass="back">
+      <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="back">
          <children>
             <VBox layoutX="274.0" layoutY="200.0" prefHeight="200.0" prefWidth="253.0">
                <children>

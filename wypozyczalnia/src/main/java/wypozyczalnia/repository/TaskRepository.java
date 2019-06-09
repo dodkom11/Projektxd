@@ -14,4 +14,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Task findByTitle(String title);
     Task findByBracket_Id(long id);
     Task findByBracket(Bracket bracket);
+
 }

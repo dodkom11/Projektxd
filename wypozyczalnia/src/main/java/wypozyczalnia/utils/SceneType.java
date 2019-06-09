@@ -16,9 +16,9 @@ public enum SceneType {
 
     // WORKER
     WORKER_MAIN("worker/workerMain"),
-    WORKER_MANAGE_PARCELS("worker/workerManageParcels"),
-    WORKER_MANAGE_GIFT_ORDERS("worker/workerManageGiftOrders"),
-    WORKER_EDIT_GIFT("worker/workerEditGift"),
+    WORKER_CLIENT_MANAGEMENET("worker/clientManagement"),
+    WORKER_OUR_CARS("worker/ourCars"),
+    WORKER_RENT_CAR("worker/rentCar"),
     WORKER_EDIT_COUPON("worker/workerEditCoupons"),
 
     // USER

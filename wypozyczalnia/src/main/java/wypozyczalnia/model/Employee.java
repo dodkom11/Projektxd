@@ -18,10 +18,10 @@ public class Employee {
     @Column(name = "employment_date")
     private Date employmentDate;
     private String position;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
 

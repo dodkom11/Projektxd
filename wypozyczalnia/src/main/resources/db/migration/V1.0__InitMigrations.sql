@@ -44,6 +44,7 @@ CREATE TABLE `address` (
 
 CREATE TABLE `client` (
     id        bigint NOT NULL AUTO_INCREMENT,
+    active    BOOLEAN not null default 1,
     address_id bigint,
     PRIMARY KEY (id)
 );
