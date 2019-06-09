@@ -298,6 +298,7 @@
                      </padding>
                   </VBox>
                   <Label layoutX="21.0" layoutY="108.0" prefHeight="25.0" prefWidth="70.0" text="Rental Time:" />
+                  <Label fx:id="errorLabel" layoutX="80.0" layoutY="141.0" prefHeight="17.0" prefWidth="137.0" text="these days are reserved" textFill="RED" visible="false" />
                </children>
             </AnchorPane>
             </children>

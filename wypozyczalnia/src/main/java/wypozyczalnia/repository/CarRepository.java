@@ -11,7 +11,5 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car, Long> {
     List<Car> findAllByBrand(String brand);
     List<Car> findAllByType(String type);
-    List<Car> findByPriceLessThanAndPriceGreaterThanAndCapacityLessThanAndCapacityGreaterThanAndProductionYearLessThanAndProductionYearGreaterThan(float priceFrom, float priceTo, float capacityFrom, float capacityTo, int yearFrom, int yearTo);
-    List<Car> findAllByPriceLessThanAndPriceGreaterThan(int x, int y);
-    List<Car> findAllByPriceAfter(int x);
+
 }

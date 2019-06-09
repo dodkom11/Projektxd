@@ -2,6 +2,8 @@ package wypozyczalnia.controller.worker;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,13 +22,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import wypozyczalnia.config.DisabledRange;
 import wypozyczalnia.config.StoredData;
-import wypozyczalnia.model.Address;
-import wypozyczalnia.model.Car;
-import wypozyczalnia.model.Client;
-import wypozyczalnia.model.Rent;
+import wypozyczalnia.model.*;
 import wypozyczalnia.repository.*;
 import wypozyczalnia.service.AccountService;
 import wypozyczalnia.utils.SceneManager;
@@ -34,7 +35,7 @@ import javafx.scene.input.MouseEvent;
 import wypozyczalnia.utils.SceneType;
 
 
-import java.time.LocalDate;
+import java.time.*;
 import java.util.*;
 
 @Controller
@@ -43,11 +44,11 @@ public class RentCarController {
 
     private double x = 0;
     private double y = 0;
-    private int index;
-    private int carIndex;
+    private Car correctCar;
 
     List<Car> filteredCars;
     List<Client> clients;
+    List<LocalDate> disableDates;
 
 
     @Autowired
@@ -111,6 +112,8 @@ public class RentCarController {
     private Label panelLabel;
     @FXML
     private Label mainTitleLabel;
+    @FXML
+    private Label errorLabel;
 
 
 
@@ -247,26 +250,48 @@ public class RentCarController {
 
     @FXML
     void rentalDetailsClicked(){
+        errorLabel.setVisible(false);
+
+        boolean badTime = false;
+
         LocalDate localDate = datePicker.getValue();
-        dateLabel.setText(localDate.toString());
-        float totalPrice = Float.valueOf(priceLabel.getText()) * Float.valueOf(rentalTime.getText());
-        totalPriceLabel.setText(String.valueOf(totalPrice));
-        timeLabel.setText(rentalTime.getText());
-        detailsPane.setVisible(true);
+        LocalDate checkDate;
+
+
+
+        for(LocalDate ld : disableDates){
+            for(int i = 0; i < (Integer.valueOf(rentalTime.getText())-1); i++){
+                checkDate = localDate.plusDays(Integer.valueOf(rentalTime.getText())-1-i);
+                if( checkDate.getYear() == ld.getYear() &&
+                        checkDate.getMonth().getValue() == ld.getMonth().getValue() &&
+                        checkDate.getDayOfMonth() == ld.getDayOfMonth()){
+                    badTime = true;
+                }
+            }
+
+        }
+
+        if(!badTime){
+            dateLabel.setText(localDate.toString());
+            float totalPrice = Float.valueOf(priceLabel.getText()) * Float.valueOf(rentalTime.getText());
+            totalPriceLabel.setText(String.valueOf(totalPrice));
+            timeLabel.setText(rentalTime.getText());
+            detailsPane.setVisible(true);
+        }else{
+            errorLabel.setVisible(true);
+
+        }
     }
     @FXML
     void confirmRentalClicked(){
         LocalDate localDate = datePicker.getValue();
 
-        Calendar c1 = Calendar.getInstance();
-        c1.set(Calendar.MONTH, localDate.getMonth().getValue());
-        c1.set(Calendar.DATE, localDate.getDayOfMonth());
-        c1.set(Calendar.YEAR, localDate.getYear());
 
-        Date date = c1.getTime();
+
+        Date date = Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
 
         Rent rent = new Rent();
-        rent.setCar(filteredCars.get(carIndex));
+        rent.setCar(correctCar);
         rent.setClient(clients.get(clientComboBox.getSelectionModel().getSelectedIndex()));
         rent.setEmployee(accountRepository.findById(StoredData.getLoggedUserId()).getEmployee());
         rent.setRentalDate(date);
@@ -300,6 +325,8 @@ public class RentCarController {
 
     @FXML
     public void initialize() {
+
+
         if(StoredData.isAdmin()){
             panelLabel.setText("Admin Panel");
         }else{
@@ -389,14 +416,15 @@ public class RentCarController {
 
         Image image = new Image("/icons/car.png");
 
+
         int x = 0;
         for(Car car : filteredCars) {
             hBox[x] = new HBox();
             carImage[x] = new ImageView();
             vBox[x] = new VBox();
             btnRent[x] = new Button("Rent this car");
-            index = x;
-            btnRent[x].setOnMouseClicked(event -> rentPanel(index));
+
+            btnRent[x].setOnMouseClicked(event -> rentPanel(car));
 
 
             label[x*7] = new Label("  ID: " + car.getId());
@@ -428,8 +456,8 @@ public class RentCarController {
 
     }
 
-    private void rentPanel(int index){
-        carIndex = index;
+    private void rentPanel(Car car){
+        correctCar = car;
 
         carPane.setVisible(false);
         rentPane.setVisible(true);
@@ -439,10 +467,56 @@ public class RentCarController {
         for(Client client : clients) {
             clientComboBox.getItems().add(client.getAddress().getName() + " " + client.getAddress().getSurname());
         }
-        brandLabel.setText(filteredCars.get(index).getBrand());
-        modelLabel.setText(filteredCars.get(index).getModel());
-        priceLabel.setText(String.valueOf(filteredCars.get(index).getPrice()));
+        brandLabel.setText(car.getBrand());
+        modelLabel.setText(car.getModel());
+        priceLabel.setText(String.valueOf(car.getPrice()));
 
+        dataPickerDisable(car);
+        System.out.println(car.getBrand() + " " + car.getModel());
+
+    }
+
+
+    private void dataPickerDisable(Car car){
+        List<Rent> rents = rentRepository.findAllByCar(car);
+        disableDates = new ArrayList<>();
+        System.out.println(car.getBrand() + " " + car.getModel());
+
+        for(Rent rent : rents){
+            for(int i = 0; i < rent.getRentalTime();i++){
+                System.out.println(rent.getRentalDate() + "  " + rent.getRentalTime());
+                LocalDate ld = Instant.ofEpochMilli(rent.getRentalDate().getTime())
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDate();
+
+                disableDates.add(ld.plusDays(i));
+            }
+        }
+
+
+
+        final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate date, boolean empty) {
+                        super.updateItem(date, empty);
+                        for(LocalDate local : disableDates){
+
+                            if(date.getYear() == local.getYear() &&
+                               date.getMonth().getValue() == local.getMonth().getValue() &&
+                               date.getDayOfMonth() == local.getDayOfMonth()
+                            ) {
+                                setDisable(true);
+                                setStyle("-fx-background-color: #ffc0cb;");
+
+                            }
+                        }
+                    }
+                };
+            }
+        };
+        datePicker.setDayCellFactory(dayCellFactory);
     }
 
     @Autowired

@@ -19,7 +19,7 @@ public enum SceneType {
     WORKER_CLIENT_MANAGEMENET("worker/clientManagement"),
     WORKER_OUR_CARS("worker/ourCars"),
     WORKER_RENT_CAR("worker/rentCar"),
-    WORKER_EDIT_COUPON("worker/workerEditCoupons"),
+    WORKER_DIAGRAMS("worker/workerDiagrams"),
 
     // USER
     USER_MAIN("user/mainUser"),

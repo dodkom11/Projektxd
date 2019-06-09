@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -22,6 +23,7 @@ import wypozyczalnia.config.VetoListener;
 import wypozyczalnia.model.*;
 import wypozyczalnia.model.Priority;
 import wypozyczalnia.repository.*;
+import wypozyczalnia.service.AccountService;
 import wypozyczalnia.utils.SceneManager;
 import wypozyczalnia.utils.SceneType;
 
@@ -42,14 +44,16 @@ public class WorkerController {
     private PriorityRepository priorityRepository;
     @Autowired
     private CommentRepository commentRepository;
+
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private AccountService accountService;
 
     private SceneManager sceneManager;
 
     private double x = 0;
     private double y = 0;
     boolean access = true;
+    boolean plusTask = false;
 
     @FXML
     private ListView<Label> toDoList;
@@ -77,8 +81,12 @@ public class WorkerController {
     private Label panelLabel;
     @FXML
     private Label mainTitleLabel;
+    @FXML
+    private ImageView plusBtn;
 
     private Task task;
+
+    private Task newTask;
 
     @FXML
     void dragged(MouseEvent event){
@@ -144,25 +152,72 @@ public class WorkerController {
 
     @FXML
     void onEnter(ActionEvent event){
+        String commWhite = taskComment.getText();
+        commWhite = commWhite.replaceAll(" ","");
+        if(!commWhite.equals("")) {
+            Comment comment = new Comment(accountRepository.findById(StoredData.getLoggedUserId()), taskComment.getText(), taskRepository.getOne(task.getId()));
+            commentRepository.save(comment);
+            loadComments();
+            taskComment.clear();
+        }
 
-        Comment comment = new Comment(accountRepository.findById(StoredData.getLoggedUserId()), taskComment.getText(), taskRepository.getOne(task.getId()));
-        commentRepository.save(comment);
-        loadComments();
-        taskComment.clear();
+    }
+    @FXML
+    void plusBtnClicked(){
+        taskTitle.clear();
+        taskContent.clear();
+        taskStatus.getItems().clear();
+        taskPriority.getItems().clear();
+        taskAssignedPerson.getItems().clear();
+        access = true;
+
+        Account account = accountRepository.findById(StoredData.getLoggedUserId());
+        List<Account> newAccounts = accountRepository.findAllByBracket_Id(account.getBracket().getId());
+        List<State> newState = stateRepository.findAll();
+        List<Priority> newPriority =  priorityRepository.findAll();
+
+        for(Account acc : newAccounts){
+            taskAssignedPerson.getItems().add(acc.getEmployee().getAddress().getName() + " " + acc.getEmployee().getAddress().getSurname());
+        }
+        for(State state : newState){
+            taskStatus.getItems().add(state.getName());
+        }
+        for(Priority priority : newPriority){
+            taskPriority.getItems().add(priority.getName());
+        }
+        newTask = new Task();
+        newTask.setBracket(account.getBracket());
+
+        plusTask = true;
+        taskPane.setVisible(true);
 
     }
 
     @FXML
     void confirmClicked(MouseEvent event) {
-
-        task.setContent(taskContent.getText());
-        task.setPriority(priorityRepository.findByName(taskPriority.getSelectionModel().getSelectedItem()));
-        task.setTitle(taskTitle.getText());
-        task.setState(stateRepository.findByName(taskStatus.getSelectionModel().getSelectedItem()));
         String str = taskAssignedPerson.getSelectionModel().getSelectedItem();
         String[] splited = str.split("\\s+");
-        task.setAccount(accountRepository.findByEmployeeAddressNameAndEmployeeAddressSurname(splited[0], splited[1]));
-        taskRepository.save(task);
+        Account addAcc = accountRepository.findByEmployeeAddressNameAndEmployeeAddressSurname(splited[0], splited[1]);
+
+        if(plusTask){
+            newTask.setContent(taskContent.getText());
+            newTask.setPriority(priorityRepository.findByName(taskPriority.getSelectionModel().getSelectedItem()));
+            newTask.setTitle(taskTitle.getText());
+            newTask.setState(stateRepository.findByName(taskStatus.getSelectionModel().getSelectedItem()));
+            newTask.setAccount(addAcc);
+            accountService.saveTask(newTask);
+            plusTask = false;
+
+        }else {
+            task.setContent(taskContent.getText());
+            task.setPriority(priorityRepository.findByName(taskPriority.getSelectionModel().getSelectedItem()));
+            task.setTitle(taskTitle.getText());
+            task.setState(stateRepository.findByName(taskStatus.getSelectionModel().getSelectedItem()));
+
+            task.setAccount(addAcc);
+            taskRepository.save(task);
+
+        }
         fillTask();
         taskPane.setVisible(false);
     }
@@ -181,6 +236,10 @@ public class WorkerController {
     void rentCarClicked(){
         sceneManager.show(SceneType.WORKER_RENT_CAR);
     }
+    @FXML
+    void diagramsClicked(){
+        sceneManager.show(SceneType.WORKER_DIAGRAMS);
+    }
 
     @FXML
     public void initialize() {
@@ -192,6 +251,12 @@ public class WorkerController {
         mainTitleLabel.setText("Tasks");
 
         taskPane.setVisible(false);
+
+        if(accountRepository.findById(StoredData.getLoggedUserId()).getPermission().getName().equals("worker")){
+            plusBtn.setVisible(false);
+        }else{
+            plusBtn.setVisible(true);
+        }
 
 
         taskPriority.getSelectionModel().selectedItemProperty().addListener(new VetoListener<String>(taskPriority.getSelectionModel()) {
@@ -318,10 +383,10 @@ public class WorkerController {
         Label label[] = new Label[tasks.size()];
         for (Task task1 : tasks) {
             label[x] = new Label(task1.getTitle());
-            if(task1.getState().getName().equals("to_do")){
+            if(task1.getState().getName().equals("to do")){
                 toDoList.getItems().add(label[x]);
             }
-            if(task1.getState().getName().equals("in_progress")){
+            if(task1.getState().getName().equals("in progress")){
                 inProgressList.getItems().add(label[x]);
             }
             if(task1.getState().getName().equals("done")){

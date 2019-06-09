@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import wypozyczalnia.config.StoredData;
 import wypozyczalnia.model.Account;
 import wypozyczalnia.model.Bracket;
+import wypozyczalnia.model.Task;
 import wypozyczalnia.repository.AccountRepository;
 import wypozyczalnia.repository.BracketRepository;
+import wypozyczalnia.repository.TaskRepository;
 
 @Service
 public class AccountService {
@@ -18,6 +20,8 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private BracketRepository bracketRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
 
     public String login(String username, String password) {
@@ -51,5 +55,9 @@ public class AccountService {
         alert.setContentText("Only Admin can do that");
 
         alert.showAndWait();
+    }
+
+    public void saveTask(Task task){
+        taskRepository.save(task);
     }
 }
