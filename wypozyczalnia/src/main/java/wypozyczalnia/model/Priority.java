@@ -15,7 +15,7 @@ public class Priority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "priority", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "priority", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Task> task = new ArrayList<>();
 
     public Priority() {

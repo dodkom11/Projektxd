@@ -1,5 +1,5 @@
 .back {
-    -fx-background-image: url(/images/background.jpg);
+    -fx-background-image: url(/images/bgmain.jpg);
     -fx-background-size: cover;
 }
 .worker {

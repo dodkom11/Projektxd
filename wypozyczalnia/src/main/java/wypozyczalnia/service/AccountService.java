@@ -43,7 +43,6 @@ public class AccountService {
                 }
                 StoredData.setLoggedUserId(account.getId());
                 return account.getPermission().getName();
-
             }
             return "error";
     }
@@ -53,6 +52,31 @@ public class AccountService {
         alert.setTitle("Access Error");
         alert.setHeaderText("You don't have access to this functionality");
         alert.setContentText("Only Admin can do that");
+
+        alert.showAndWait();
+    }
+
+    public void showDeleteError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Delete Error");
+        alert.setHeaderText("You can't delete this employee");
+        alert.setContentText("in order to remove, you need to give Leader to another person");
+
+        alert.showAndWait();
+    }
+    public void fillFieldError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Something went wrong :(");
+        alert.setContentText("Please complete fields correctly, and try again!");
+
+        alert.showAndWait();
+    }
+    public void simpleError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Something went wrong :(");
+        alert.setContentText("...");
 
         alert.showAndWait();
     }

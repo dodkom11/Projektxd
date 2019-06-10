@@ -39,7 +39,7 @@ import java.time.*;
 import java.util.*;
 
 @Controller
-public class RentCarController {
+public class RentCarController{
     private SceneManager sceneManager;
 
     private double x = 0;
@@ -114,6 +114,10 @@ public class RentCarController {
     private Label mainTitleLabel;
     @FXML
     private Label errorLabel;
+    @FXML
+    private Label groupTask;
+    @FXML
+    private HBox employeesBtn;
 
 
 
@@ -314,25 +318,37 @@ public class RentCarController {
     }
     @FXML
     void tasksClicked(){
-        sceneManager.show(SceneType.WORKER_MAIN);
+        if(StoredData.isAdmin()){
+            sceneManager.show(SceneType.ADMIN_GROUPS);
+        }else{
+
+            sceneManager.show(SceneType.WORKER_MAIN);
+        }
     }
     @FXML
     void clientsClicked(){
         sceneManager.show(SceneType.WORKER_OUR_CARS);
     }
     @FXML
+    void employeesBtnClicked(){sceneManager.show(SceneType.ADMIN_EMPLOYEE_MANAGMENT);}
+    @FXML
     void ourCarsClicked(){ sceneManager.show(SceneType.WORKER_OUR_CARS); }
+    @FXML
+    void diagramsClicked(){
+        sceneManager.show(SceneType.WORKER_DIAGRAMS);
+    }
 
     @FXML
     public void initialize() {
-
-
         if(StoredData.isAdmin()){
             panelLabel.setText("Admin Panel");
+            employeesBtn.setVisible(true);
+            groupTask.setText("Groups");
         }else{
             panelLabel.setText("Worker Panel");
+            employeesBtn.setVisible(false);
+            groupTask.setText("Tasks");
         }
-        mainTitleLabel.setText("Rent a Car");
 
         typeComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override public void changed(ObservableValue ov, String t, String t1) {

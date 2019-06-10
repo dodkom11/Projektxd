@@ -20,7 +20,7 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "address_id")
     private Address address;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Rent> rent = new ArrayList<>();
 
 

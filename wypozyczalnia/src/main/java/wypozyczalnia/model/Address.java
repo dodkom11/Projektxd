@@ -26,9 +26,9 @@ public class Address {
     @Column(name = "telephone_number")
     private Long telephoneNumber;
     private String email;
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Client client;
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private Employee  employee;
 
     public Address() {

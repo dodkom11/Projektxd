@@ -3,12 +3,16 @@ package wypozyczalnia.controller.worker;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.*;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import wypozyczalnia.config.StoredData;
 import wypozyczalnia.model.Car;
 import wypozyczalnia.model.Employee;
 import wypozyczalnia.model.Rent;
@@ -26,6 +30,10 @@ public class DiagramsController {
 
     private double x = 0;
     private double y = 0;
+    @FXML
+    private Label groupTask;
+    @FXML
+    private Label panelLabel;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -36,6 +44,8 @@ public class DiagramsController {
 
     @FXML
     private ListView<Pane> chartListView;
+    @FXML
+    private HBox employeesBtn;
 
     @FXML
     void dragged(MouseEvent event){
@@ -80,8 +90,15 @@ public class DiagramsController {
         sceneManager.show(SceneType.MAIN);
     }
     @FXML
+    void employeesBtnClicked(){sceneManager.show(SceneType.ADMIN_EMPLOYEE_MANAGMENT);}
+    @FXML
     void tasksClicked(){
-        sceneManager.show(SceneType.WORKER_MAIN);
+        if(StoredData.isAdmin()){
+            sceneManager.show(SceneType.ADMIN_GROUPS);
+        }else{
+
+            sceneManager.show(SceneType.WORKER_MAIN);
+        }
     }
     @FXML
     void clientsClicked(){
@@ -94,6 +111,17 @@ public class DiagramsController {
 
     @FXML
     public void initialize() {
+
+        if(StoredData.isAdmin()){
+            employeesBtn.setVisible(true);
+            groupTask.setText("Groups");
+            panelLabel.setText("Admin Panel");
+        }else{
+            employeesBtn.setVisible(false);
+            groupTask.setText("Tasks");
+            panelLabel.setText("Worker Panel");
+        }
+
         Pane pane = new Pane();
         pane.getChildren().add(employeChart());
         Pane pane2 = new Pane();

@@ -80,6 +80,10 @@ public class OurCarsController {
     private Label panelLabel;
     @FXML
     private Label mainTitleLabel;
+    @FXML
+    private Label groupTask;
+    @FXML
+    private HBox employeesBtn;
 
     @FXML
     void dragged(MouseEvent event){
@@ -89,6 +93,7 @@ public class OurCarsController {
         stage.setX(event.getScreenX() - x);
         stage.setY(event.getScreenY() - y);
         stage.setOpacity(0.5);
+
     }
     @FXML
     void released(MouseEvent event){
@@ -123,23 +128,37 @@ public class OurCarsController {
     }
     @FXML
     void tasksClicked(){
-        sceneManager.show(SceneType.WORKER_MAIN);
+        if(StoredData.isAdmin()){
+            sceneManager.show(SceneType.ADMIN_GROUPS);
+        }else{
+
+            sceneManager.show(SceneType.WORKER_MAIN);
+        }
     }
     @FXML
     void clientsClicked(){
         sceneManager.show(SceneType.WORKER_CLIENT_MANAGEMENET);
     }
     @FXML
+    void employeesBtnClicked(){sceneManager.show(SceneType.ADMIN_EMPLOYEE_MANAGMENT);}
+    @FXML
     void rentClicked(){ sceneManager.show(SceneType.WORKER_RENT_CAR); }
+    @FXML
+    void diagramsClicked(){
+        sceneManager.show(SceneType.WORKER_DIAGRAMS);
+    }
 
     @FXML
     public void initialize() {
         if(StoredData.isAdmin()){
             panelLabel.setText("Admin Panel");
+            employeesBtn.setVisible(true);
+            groupTask.setText("Groups");
         }else{
             panelLabel.setText("Worker Panel");
+            employeesBtn.setVisible(false);
+            groupTask.setText("Tasks");
         }
-        mainTitleLabel.setText("Our Cars");
         fillClientData();
 
     }

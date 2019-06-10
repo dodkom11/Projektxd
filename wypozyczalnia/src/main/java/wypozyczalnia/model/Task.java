@@ -28,7 +28,7 @@ public class Task {
     @ManyToOne
     private Account account;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Comment> comment = new ArrayList<>();
 
     public Task() {

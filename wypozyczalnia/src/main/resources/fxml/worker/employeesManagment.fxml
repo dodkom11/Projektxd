@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.worker.OurCarsController">
+<VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.worker.EmployeesManagmentController">
     <children>
         <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
             <children>
@@ -72,7 +72,7 @@
                                 </Label>
                             </children>
                         </HBox>
-                        <HBox prefHeight="0.0" prefWidth="136.0" styleClass="btns">
+                        <HBox onMouseClicked="#ourCarsClicked" prefHeight="0.0" prefWidth="136.0" styleClass="btns">
                             <children>
                                 <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -209,7 +209,7 @@
                                 </ImageView>
                             </children>
                         </AnchorPane>
-                        <Label fx:id="mainTitleLabel" layoutY="23.0" text="Our Cars" textFill="#7c7c7c">
+                        <Label fx:id="mainTitleLabel" layoutY="23.0" text="Employees" textFill="#7c7c7c">
                             <padding>
                                 <Insets left="20.0" />
                             </padding>
@@ -221,15 +221,15 @@
                 </Pane>
                 <ScrollPane layoutX="200.0" layoutY="80.0" prefHeight="397.0" prefWidth="590.0">
                     <content>
-                        <AnchorPane fx:id="carPane" minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="587.0">
+                        <AnchorPane fx:id="clientPane" minHeight="0.0" minWidth="0.0" prefHeight="394.0" prefWidth="587.0">
                             <children>
-                                <Pane fx:id="addCarPane" prefHeight="388.0" prefWidth="590.0" visible="false">
+                                <Pane fx:id="addClientPane" prefHeight="388.0" prefWidth="590.0" visible="false">
                                     <children>
-                                        <VBox layoutX="243.0" layoutY="68.0" prefHeight="253.0" prefWidth="260.0" style="-fx-background-color: #e2edff; -fx-background-radius: 25;">
+                                        <VBox layoutX="230.0" layoutY="22.0" prefHeight="316.0" prefWidth="260.0" style="-fx-background-color: #e2edff; -fx-background-radius: 25;">
                                             <children>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="brand" prefHeight="32.0" prefWidth="294.0" promptText="brand" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="name" prefHeight="32.0" prefWidth="294.0" promptText="name" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -237,7 +237,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="model" prefHeight="32.0" prefWidth="294.0" promptText="model" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="surname" prefHeight="32.0" prefWidth="294.0" promptText="surname" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -245,7 +245,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="productionYear" prefHeight="32.0" prefWidth="294.0" promptText="production year" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="pesel" prefHeight="32.0" prefWidth="294.0" promptText="pesel" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -253,7 +253,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="vin" prefHeight="32.0" prefWidth="294.0" promptText="numer VIN" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="city" prefHeight="32.0" prefWidth="294.0" promptText="city" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -261,7 +261,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="capacity" prefHeight="32.0" prefWidth="294.0" promptText="capacity" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="street" prefHeight="32.0" prefWidth="294.0" promptText="street" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -269,7 +269,7 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="type" prefHeight="32.0" prefWidth="294.0" promptText="type" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="houseNumber" prefHeight="32.0" prefWidth="294.0" promptText="house number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -277,7 +277,23 @@
                                                 </HBox>
                                                 <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                                     <children>
-                                                        <TextField fx:id="price" prefHeight="32.0" prefWidth="294.0" promptText="price" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                        <TextField fx:id="zipCode" prefHeight="32.0" prefWidth="294.0" promptText="zip code" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets top="5.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                                    <children>
+                                                        <TextField fx:id="telNumber" prefHeight="32.0" prefWidth="294.0" promptText="telephone number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                                    </children>
+                                                    <VBox.margin>
+                                                        <Insets top="5.0" />
+                                                    </VBox.margin>
+                                                </HBox>
+                                                <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                                    <children>
+                                                        <TextField fx:id="eMail" prefHeight="32.0" prefWidth="294.0" promptText="e-mail" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                                     </children>
                                                     <VBox.margin>
                                                         <Insets top="5.0" />
@@ -285,7 +301,7 @@
                                                 </HBox>
                                             </children>
                                         </VBox>
-                                        <Button layoutX="97.0" layoutY="247.0" mnemonicParsing="false" onMouseClicked="#confirmAddClicked" prefHeight="35.0" prefWidth="109.0" styleClass="btnSignIn" text="Confirm">
+                                        <Button layoutX="64.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#confirmAddClicked" prefHeight="35.0" prefWidth="109.0" styleClass="btnSignIn" text="Confirm">
                                             <graphic>
                                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                                     <image>
@@ -294,11 +310,47 @@
                                                 </ImageView>
                                             </graphic>
                                         </Button>
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="97.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="96.0" fitWidth="96.0" layoutX="69.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../icons/icons8-fiat-500-100.png" />
+                                                <Image url="@../../icons/icons8-collaborator-female-96.png" />
                                             </image>
                                         </ImageView>
+                              <VBox layoutX="23.0" layoutY="151.0" prefHeight="153.0" prefWidth="190.0" style="-fx-background-color: #e2edff; -fx-background-radius: 25;">
+                                 <children>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="username" prefHeight="32.0" prefWidth="294.0" promptText="username" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="password" prefHeight="32.0" prefWidth="294.0" promptText="password" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="salary" prefHeight="32.0" prefWidth="294.0" promptText="salary" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
+                                       <children>
+                                          <TextField fx:id="position" prefHeight="32.0" prefWidth="294.0" promptText="position" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                                     </children>
                                 </Pane>
                                 <ListView fx:id="listViewPane" onMouseClicked="#listViewClicked" prefHeight="397.0" prefWidth="581.0" />
@@ -308,7 +360,7 @@
                 </ScrollPane>
                 <Pane layoutX="200.0" layoutY="476.0" prefHeight="113.0" prefWidth="590.0">
                     <children>
-                        <Button fx:id="addCarBtn" layoutX="43.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#addCarClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="   Add Car">
+                        <Button fx:id="addClientBtn" layoutX="32.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#addClientClicked" prefHeight="35.0" prefWidth="140.0" styleClass="btnSignIn" text="Add Employee">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -317,7 +369,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="editCarBtn" layoutX="235.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#editCarClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="   Edit Car">
+                        <Button fx:id="editClientBtn" layoutX="224.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#editClientClicked" prefHeight="35.0" prefWidth="140.0" styleClass="btnSignIn" text="Edit Employee">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -326,7 +378,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="deleteCarBtn" layoutX="430.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#deleteCarClicked" prefHeight="35.0" prefWidth="121.0" styleClass="btnSignIn" text="   Delete Car">
+                        <Button fx:id="deleteClientBtn" layoutX="419.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#deleteClientClicked" prefHeight="35.0" prefWidth="140.0" styleClass="btnSignIn" text="Delete Employee">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

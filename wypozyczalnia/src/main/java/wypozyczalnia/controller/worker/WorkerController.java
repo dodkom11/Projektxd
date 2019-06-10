@@ -248,7 +248,6 @@ public class WorkerController {
         }else{
             panelLabel.setText("Worker Panel");
         }
-        mainTitleLabel.setText("Tasks");
 
         taskPane.setVisible(false);
 

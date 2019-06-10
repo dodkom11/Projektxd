@@ -15,7 +15,7 @@ public class Permission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "permission", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Account> account = new ArrayList<>();
 
     public Permission() {

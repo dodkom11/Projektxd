@@ -74,6 +74,7 @@ CREATE TABLE `comment` (
 
 CREATE TABLE `employee` (
     id              bigint NOT NULL AUTO_INCREMENT,
+    active          BOOLEAN not null default 1,
     salary          double DEFAULT 0,
     employment_date DATETIME,
     position        VARCHAR(30),

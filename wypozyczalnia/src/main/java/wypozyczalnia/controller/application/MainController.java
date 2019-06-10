@@ -89,12 +89,14 @@ public class MainController {
 
     private void signIn(){
         String permissions = accountService.login(username.getText(), password.getText());
-
+        System.out.println("perrmissions: " + permissions);
         switch (permissions){
             case "worker":
                 sceneManager.show(SceneType.WORKER_MAIN);
+                break;
             case "admin":
-                sceneManager.show(SceneType.WORKER_MAIN);
+                sceneManager.show(SceneType.ADMIN_GROUPS);
+                break;
             default:
                 failSignInText.setVisible(true);
         }

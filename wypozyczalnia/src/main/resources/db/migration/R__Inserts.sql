@@ -88,10 +88,10 @@ values (3, 'zrob mi loda', 'to do to do to do to do', 3, 1, 1, 1);
 insert into task(id, title, content, state_id, priority_id, bracket_id, assigned_person)
 values (4, 'cho na szluga', 'to do to do to do to do', 2, 1, 1, 1);
 
-insert into employee(id, salary, employment_date, position, address_id, account_id)
-values (1, 242.4, '1999-04-26 13:00:00', 'gowniak', 1, 1);
-insert into employee(id, salary, employment_date, position, address_id, account_id)
-values (2, 242.4, '1999-04-26 13:00:00', 'dupa', 2, 2);
+insert into employee(id, active, salary, employment_date, position, address_id, account_id)
+values (1, 1, 242.4, '1999-04-26 13:00:00', 'gowniak', 1, 1);
+insert into employee(id, active, salary, employment_date, position, address_id, account_id)
+values (2, 1, 242.4, '1999-04-26 13:00:00', 'dupa', 2, 2);
 
 insert into comment(id, account_id, content, task_id)
 values (1, 1, 'chujowe', 1);

@@ -2,6 +2,7 @@ package wypozyczalnia.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,8 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ColumnDefault("true")
+    private Boolean active = true;
     private double salary;
     @Column(name = "employment_date")
     private Date employmentDate;
@@ -25,7 +28,7 @@ public class Employee {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = {CascadeType.REMOVE, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Rent> rent = new ArrayList<>();
 
 

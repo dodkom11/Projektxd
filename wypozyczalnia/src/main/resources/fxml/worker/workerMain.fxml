@@ -40,7 +40,7 @@
                               <Insets bottom="5.0" left="5.0" top="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Label prefHeight="32.0" prefWidth="200.0" text="Tasks" textFill="#7c7c7c">
+                        <Label fx:id="groupTask" prefHeight="32.0" prefWidth="200.0" text="Tasks" textFill="#7c7c7c">
                            <font>
                               <Font name="Calibri Light" size="18.0" />
                            </font>
