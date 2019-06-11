@@ -32,7 +32,7 @@ public class MainController {
     private Label failSignInText;
 
     @FXML
-    void dragged(MouseEvent event){
+    void dragged(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 
@@ -40,57 +40,59 @@ public class MainController {
         stage.setY(event.getScreenY() - y);
         stage.setOpacity(0.5);
     }
+
     @FXML
-    void released(MouseEvent event){
+    void released(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 
         stage.setOpacity(1);
     }
+
     @FXML
-    void pressed(MouseEvent event){
+    void pressed(MouseEvent event) {
         x = event.getSceneX();
         y = event.getSceneY();
     }
 
     @FXML
-    void closeBtnClicked(MouseEvent event){
+    void closeBtnClicked(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    void minimizeBtnClicked(MouseEvent event){
+    void minimizeBtnClicked(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.setIconified(true);
     }
 
     @FXML
-    void usernameFieldClicked(MouseEvent event){
+    void usernameFieldClicked(MouseEvent event) {
         failSignInText.setVisible(false);
     }
 
     @FXML
-    void passwordFieldClicked(MouseEvent event){
+    void passwordFieldClicked(MouseEvent event) {
         failSignInText.setVisible(false);
     }
 
     @FXML
-    public void onEnter(ActionEvent event){
+    public void onEnter(ActionEvent event) {
         signIn();
     }
 
     @FXML
-    void signInBtnClicked(MouseEvent event){
+    void signInBtnClicked(MouseEvent event) {
         signIn();
     }
 
-    private void signIn(){
+    private void signIn() {
         String permissions = accountService.login(username.getText(), password.getText());
         System.out.println("perrmissions: " + permissions);
-        switch (permissions){
+        switch (permissions) {
             case "worker":
                 sceneManager.show(SceneType.WORKER_MAIN);
                 break;
@@ -101,6 +103,7 @@ public class MainController {
                 failSignInText.setVisible(true);
         }
     }
+
     @FXML
     public void initialize() {
     }

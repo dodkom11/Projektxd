@@ -15,9 +15,7 @@ import org.springframework.stereotype.Controller;
 import wypozyczalnia.config.StoredData;
 import wypozyczalnia.model.Address;
 import wypozyczalnia.model.Client;
-import wypozyczalnia.repository.AccountRepository;
 import wypozyczalnia.repository.AddressRepository;
-import wypozyczalnia.repository.CarRepository;
 import wypozyczalnia.repository.ClientRepository;
 import wypozyczalnia.service.AccountService;
 import wypozyczalnia.utils.SceneManager;
@@ -42,7 +40,6 @@ public class ClientManagementController {
     private AddressRepository addressRepository;
     @Autowired
     private ClientRepository clientRepository;
-
 
     List<Client> clients;
 
@@ -85,7 +82,7 @@ public class ClientManagementController {
     private HBox employeesBtn;
 
     @FXML
-    void dragged(MouseEvent event){
+    void dragged(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 
@@ -93,56 +90,67 @@ public class ClientManagementController {
         stage.setY(event.getScreenY() - y);
         stage.setOpacity(0.5);
     }
+
     @FXML
-    void released(MouseEvent event){
+    void released(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 
         stage.setOpacity(1);
     }
+
     @FXML
-    void pressed(MouseEvent event){
+    void pressed(MouseEvent event) {
         x = event.getSceneX();
         y = event.getSceneY();
     }
 
     @FXML
-    void closeBtnClicked(MouseEvent event){
+    void closeBtnClicked(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.close();
     }
 
     @FXML
-    void minimizeBtnClicked(MouseEvent event){
+    void minimizeBtnClicked(MouseEvent event) {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         stage.setIconified(true);
     }
 
     @FXML
-    void logoutClicked(){
+    void logoutClicked() {
         sceneManager.show(SceneType.MAIN);
     }
+
     @FXML
-    void employeesBtnClicked(){sceneManager.show(SceneType.ADMIN_EMPLOYEE_MANAGMENT);}
+    void employeesBtnClicked() {
+        sceneManager.show(SceneType.ADMIN_EMPLOYEE_MANAGMENT);
+    }
+
     @FXML
-    void tasksClicked(){
-        if(StoredData.isAdmin()){
+    void tasksClicked() {
+        if (StoredData.isAdmin()) {
             sceneManager.show(SceneType.ADMIN_GROUPS);
-        }else{
+        } else {
 
             sceneManager.show(SceneType.WORKER_MAIN);
         }
     }
+
     @FXML
-    void ourCarsClicked(){
+    void ourCarsClicked() {
         sceneManager.show(SceneType.WORKER_OUR_CARS);
     }
+
     @FXML
-    void rentClicked(){ sceneManager.show(SceneType.WORKER_RENT_CAR); }
+    void rentClicked() {
+        sceneManager.show(SceneType.WORKER_RENT_CAR);
+    }
+
     @FXML
-    void diagramsClicked(){
+    void diagramsClicked() {
         sceneManager.show(SceneType.WORKER_DIAGRAMS);
     }
 
@@ -161,8 +169,9 @@ public class ClientManagementController {
 
         fillClientData();
     }
+
     @FXML
-    void addClientClicked(){
+    void addClientClicked() {
 
         listViewPane.setVisible(false);
         addClientBtn.setVisible(false);
@@ -172,18 +181,18 @@ public class ClientManagementController {
         addClientPane.setVisible(true);
     }
 
-    private boolean canEdit(List<TextField> textField){
+    private boolean canEdit(List<TextField> textField) {
         boolean canEdit = true;
-        for(TextField tx : textField){
-            if(tx.getText().equals("")){
+        for (TextField tx : textField) {
+            if (tx.getText().equals("")) {
                 canEdit = false;
             }
         }
         return canEdit;
     }
+
     @FXML
-    void confirmAddClicked(){
-        boolean canConfirm = true;
+    void confirmAddClicked() {
         List<TextField> tx = new ArrayList<>();
         tx.add(name);
         tx.add(surname);
@@ -195,22 +204,22 @@ public class ClientManagementController {
         tx.add(telNumber);
         tx.add(eMail);
 
-        if(canEdit(tx)){
+        if (canEdit(tx)) {
 
-            try{
-                if(edit) {
+            try {
+                if (edit) {
                     Address address = addressRepository.getOne(client.getAddress().getId());
-                    address.setName(name.getText()+"");
+                    address.setName(name.getText() + "");
                     address.setSurname(surname.getText());
                     address.setPesel(pesel.getText());
-                    address.setCity(city.getText()+"");
+                    address.setCity(city.getText() + "");
                     address.setStreet(street.getText());
                     address.setHouseNumber(Integer.valueOf(houseNumber.getText()));
-                    address.setZipCode(zipCode.getText()+"");
+                    address.setZipCode(zipCode.getText() + "");
                     address.setTelephoneNumber(Long.valueOf(telNumber.getText()));
-                    address.setEmail(eMail.getText()+"");
+                    address.setEmail(eMail.getText() + "");
                     addressRepository.save(address);
-                }else{
+                } else {
                     Address address = new Address(name.getText(), surname.getText(), pesel.getText(), city.getText(),
                             street.getText(), Integer.valueOf(houseNumber.getText()), zipCode.getText(), Long.valueOf(telNumber.getText()), eMail.getText());
                     addressRepository.save(address);
@@ -232,44 +241,40 @@ public class ClientManagementController {
                 editClientBtn.setVisible(true);
                 deleteClientBtn.setVisible(true);
 
-
                 pesel.clear();
                 houseNumber.clear();
                 zipCode.clear();
                 telNumber.clear();
                 street.clear();
 
-
                 edit = false;
 
-
-            }catch (Exception e){
+            } catch (Exception e) {
                 accountService.fillFieldError();
             }
-        }else{
+        } else {
             accountService.fillFieldError();
         }
-
-
     }
 
     @FXML
-    void listViewClicked(){
+    void listViewClicked() {
         listViewSelectedIndex = listViewPane.getSelectionModel().getSelectedIndex();
 
     }
-    @FXML
-    void editClientClicked(){
-        if(StoredData.isAdmin()){
 
-            if(!listViewPane.getSelectionModel().isEmpty()){
+    @FXML
+    void editClientClicked() {
+        if (StoredData.isAdmin()) {
+
+            if (!listViewPane.getSelectionModel().isEmpty()) {
                 client = clientRepository.getOne(clients.get(listViewSelectedIndex).getId());
 
-                name.setText(client.getAddress().getName()+"");
+                name.setText(client.getAddress().getName() + "");
                 surname.setText(client.getAddress().getSurname());
-                eMail.setText(client.getAddress().getEmail()+"");
+                eMail.setText(client.getAddress().getEmail() + "");
                 city.setText(client.getAddress().getCity());
-                pesel.setText(client.getAddress().getPesel()+"");
+                pesel.setText(client.getAddress().getPesel() + "");
                 houseNumber.setText(String.valueOf(client.getAddress().getHouseNumber()));
                 zipCode.setText(client.getAddress().getZipCode());
                 telNumber.setText(String.valueOf(client.getAddress().getTelephoneNumber()));
@@ -284,20 +289,21 @@ public class ClientManagementController {
 
                 addClientPane.setVisible(true);
                 edit = true;
-            }else{
+            } else {
                 accountService.simpleError();
             }
 
-        }else{
+        } else {
             accountService.showError();
         }
 
     }
-    @FXML
-    void deleteClientClicked(){
 
-        if(StoredData.isAdmin()){
-            if(!listViewPane.getSelectionModel().isEmpty()){
+    @FXML
+    void deleteClientClicked() {
+
+        if (StoredData.isAdmin()) {
+            if (!listViewPane.getSelectionModel().isEmpty()) {
 
                 Client deleteClient = clientRepository.getOne(clients.get(listViewSelectedIndex).getId());
                 Address address = addressRepository.getOne(deleteClient.getAddress().getId());
@@ -305,11 +311,11 @@ public class ClientManagementController {
                 clientRepository.delete(deleteClient);
                 addressRepository.delete(address);
                 fillClientData();
-            }else{
+            } else {
                 accountService.simpleError();
             }
 
-        }else{
+        } else {
             accountService.showError();
         }
     }
@@ -320,17 +326,15 @@ public class ClientManagementController {
     }
 
 
-
-    private void fillClientData(){
+    private void fillClientData() {
 
         clients = clientRepository.findAll();
         listViewPane.getItems().clear();
         int size = clients.size();
 
-
         HBox hBoxForImage[] = new HBox[clients.size()];
-        Label label[] = new Label[clients.size()*6];
-        HBox hBox[] = new HBox[clients.size()*6];
+        Label label[] = new Label[clients.size() * 6];
+        HBox hBox[] = new HBox[clients.size() * 6];
         HBox hBoxBig[] = new HBox[clients.size()];
         VBox vBox[] = new VBox[clients.size()];
 
@@ -344,14 +348,12 @@ public class ClientManagementController {
         ImageView imagePerson[] = new ImageView[clients.size()];
         Image image = new Image("/icons/icons8-customer-100.png");
 
-         int x = 0;
+        int x = 0;
         int y = 0;
         int z = 0;
 
 
-
-
-       for(Client cli : clients){
+        for (Client cli : clients) {
 
             surnameLabel[y] = new Label("Surname:  ");
             surnameLabel[y].setStyle("-fx-font-weight: bold");
@@ -364,39 +366,35 @@ public class ClientManagementController {
             idLabel[y].setStyle("-fx-font-weight: bold");
             nameLabel[y] = new Label("Name: ");
             nameLabel[y].setStyle("-fx-font-weight: bold");
-            //creating boxes for labels
-           for(int i=0; i<5; i++){
-               hBox[x+i] = new HBox();
-           }
+            for (int i = 0; i < 5; i++) {
+                hBox[x + i] = new HBox();
+            }
 
-           // creating labels of client data
 
-            label[x+3] = new Label(cli.getAddress().getEmail());
-            label[x+4] = new Label(cli.getAddress().getTelephoneNumber().toString());
+            label[x + 3] = new Label(cli.getAddress().getEmail());
+            label[x + 4] = new Label(cli.getAddress().getTelephoneNumber().toString());
             label[x] = new Label(cli.getId().toString());
-            label[x+1] = new Label(cli.getAddress().getName());
-            label[x+2] = new Label(cli.getAddress().getSurname());
+            label[x + 1] = new Label(cli.getAddress().getName());
+            label[x + 2] = new Label(cli.getAddress().getSurname());
 
-            hBox[x+3].getChildren().add(emailLabel[y]);
-            hBox[x+3].getChildren().add(label[x+3]);
-            hBox[x+2].getChildren().add(surnameLabel[y]);
-            hBox[x+2].getChildren().add(label[x+2]);
-            hBox[x+4].getChildren().add(phoneLabel[y]);
-            hBox[x+4].getChildren().add(label[x+4]);
+            hBox[x + 3].getChildren().add(emailLabel[y]);
+            hBox[x + 3].getChildren().add(label[x + 3]);
+            hBox[x + 2].getChildren().add(surnameLabel[y]);
+            hBox[x + 2].getChildren().add(label[x + 2]);
+            hBox[x + 4].getChildren().add(phoneLabel[y]);
+            hBox[x + 4].getChildren().add(label[x + 4]);
             hBox[x].getChildren().add(idLabel[y]);
             hBox[x].getChildren().add(label[x]);
-            hBox[x+1].getChildren().add(nameLabel[y]);
-            hBox[x+1].getChildren().add(label[x+1]);
+            hBox[x + 1].getChildren().add(nameLabel[y]);
+            hBox[x + 1].getChildren().add(label[x + 1]);
 
 
-            //creating VBox for HBoxes
             vBox[y] = new VBox();
-            // adding Hboxes to VBox
 
-            vBox[y].getChildren().add(hBox[x+1]);
-            vBox[y].getChildren().add(hBox[x+2]);
-            vBox[y].getChildren().add(hBox[x+3]);
-            vBox[y].getChildren().add(hBox[x+4]);
+            vBox[y].getChildren().add(hBox[x + 1]);
+            vBox[y].getChildren().add(hBox[x + 2]);
+            vBox[y].getChildren().add(hBox[x + 3]);
+            vBox[y].getChildren().add(hBox[x + 4]);
             vBox[y].getChildren().add(hBox[x]);
 
             hBoxBig[z] = new HBox();
@@ -407,22 +405,16 @@ public class ClientManagementController {
 
 
             hBoxForImage[y].getChildren().add(imagePerson[y]);
-            hBoxForImage[y+0].getChildren().add(vBox[y]);
+            hBoxForImage[y + 0].getChildren().add(vBox[y]);
 
             hBoxBig[z].getChildren().add(hBoxForImage[y]);
             listViewPane.getItems().add(hBoxForImage[y]);
 
-            if(y%2 == 1){
-
+            if (y % 2 == 1) {
                 z++;
             }
-
             y++;
-            x+=5;
-
-
+            x += 5;
         }
-
-
     }
 }

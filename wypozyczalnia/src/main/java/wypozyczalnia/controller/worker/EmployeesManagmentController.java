@@ -3,9 +3,6 @@ package wypozyczalnia.controller.worker;
 
 import javafx.fxml.FXML;
 
-import javafx.geometry.HPos;
-
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -46,8 +43,6 @@ public class EmployeesManagmentController {
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
     private EmployeeRepository employeeRepository;
     @Autowired
     private BracketRepository bracketRepository;
@@ -62,8 +57,6 @@ public class EmployeesManagmentController {
 
     @FXML
     private Pane addClientPane;
-    @FXML
-    private AnchorPane clientPane;
     @FXML
     private Button addClientBtn;
     @FXML
@@ -102,11 +95,11 @@ public class EmployeesManagmentController {
     @FXML
     private Label panelLabel;
     @FXML
-    private Label mainTitleLabel;
-    @FXML
     private Label groupTask;
     @FXML
     private HBox employeesBtn;
+    @FXML
+    private ComboBox<String> groupCombo;
 
 
     @FXML
@@ -191,6 +184,10 @@ public class EmployeesManagmentController {
     }
     @FXML
     void addClientClicked(){
+        List<Bracket> allBrackets = bracketRepository.findAll();
+        for(Bracket br : allBrackets){
+            groupCombo.getItems().add(String.valueOf(br.getId()));
+        }
         listViewPane.setVisible(false);
         addClientBtn.setVisible(false);
         editClientBtn.setVisible(false);
@@ -199,53 +196,84 @@ public class EmployeesManagmentController {
         addClientPane.setVisible(true);
 
     }
+
+    private boolean canEdit(List<String> textField) {
+        boolean canEdit = true;
+        for (String tx : textField) {
+            if (tx.equals("")) {
+                canEdit = false;
+            }
+        }
+        return canEdit;
+    }
+
     @FXML
     void confirmAddClicked(){
-
-        if(edit) {
-            Address address = addressRepository.getOne(employee.getAddress().getId());
-            address.setName(name.getText());
-            address.setSurname(surname.getText());
-            address.setPesel(pesel.getText());
-            address.setCity(city.getText());
-            address.setStreet(street.getText());
-            address.setHouseNumber(Integer.valueOf(houseNumber.getText()));
-            address.setZipCode(zipCode.getText());
-            address.setTelephoneNumber(Long.valueOf(telNumber.getText()));
-            address.setEmail(eMail.getText());
-            addressRepository.save(address);
-
-            Account account = accountRepository.getOne(employee.getAccount().getId());
-            account.setUsername(username.getText());
-            if(!username.getText().equals("")){
-                account.setPassword(encryption.encode(password.getText()));
-            }
-            accountRepository.save(account);
-
-            employee.setPosition(position.getText());
-            employee.setSalary(Double.valueOf(salary.getText()));
-            employeeRepository.save(employee);
-
-        }else{
-            Address address = new Address(name.getText(), surname.getText(), pesel.getText(), city.getText(),
-                    street.getText(), Integer.valueOf(houseNumber.getText()), zipCode.getText(), Long.valueOf(telNumber.getText()), eMail.getText());
-            addressRepository.save(address);
-
-            Account account = new Account();
-            account.setBracket(bracketRepository.getOne(1l));
-            account.setPermission(permissionRepository.getOne(1l));
-            account.setPassword(encryption.encode(password.getText()));
-            account.setUsername(username.getText());
-            accountRepository.save(account);
-
-            Employee employee = new Employee();
-            employee.setAddress(address);
-            employee.setPosition(position.getText());
-            employee.setEmploymentDate(new Date());
-            employee.setSalary(Double.valueOf(salary.getText()));
-            employee.setAccount(account);
-            employeeRepository.save(employee);
+        List<String> tx= new ArrayList<>();
+        tx.add(name.getText());
+        tx.add(surname.getText());
+        tx.add(pesel.getText());
+        tx.add(city.getText());
+        tx.add(street.getText());
+        tx.add(houseNumber.getText());
+        tx.add(zipCode.getText());
+        tx.add(telNumber.getText());
+        tx.add(eMail.getText());
+        if(!groupCombo.getSelectionModel().getSelectedItem().isEmpty()){
+            tx.add(groupCombo.getSelectionModel().getSelectedItem());
         }
+
+        if(canEdit(tx)){
+            if(edit) {
+                Address address = addressRepository.getOne(employee.getAddress().getId());
+                address.setName(name.getText());
+                address.setSurname(surname.getText());
+                address.setPesel(pesel.getText());
+                address.setCity(city.getText());
+                address.setStreet(street.getText());
+                address.setHouseNumber(Integer.valueOf(houseNumber.getText()));
+                address.setZipCode(zipCode.getText());
+                address.setTelephoneNumber(Long.valueOf(telNumber.getText()));
+                address.setEmail(eMail.getText());
+                addressRepository.save(address);
+
+                Account account = accountRepository.getOne(employee.getAccount().getId());
+                account.setUsername(username.getText());
+                if(!username.getText().equals("")){
+                    account.setPassword(encryption.encode(password.getText()));
+                }
+                account.setBracket(bracketRepository.getOne(Long.valueOf(groupCombo.getSelectionModel().getSelectedItem())));
+                accountRepository.save(account);
+
+                employee.setPosition(position.getText());
+                employee.setSalary(Double.valueOf(salary.getText()));
+                employeeRepository.save(employee);
+
+            }else{
+                Address address = new Address(name.getText(), surname.getText(), pesel.getText(), city.getText(),
+                        street.getText(), Integer.valueOf(houseNumber.getText()), zipCode.getText(), Long.valueOf(telNumber.getText()), eMail.getText());
+                addressRepository.save(address);
+
+                Account account = new Account();
+                account.setBracket(bracketRepository.getOne(Long.valueOf(groupCombo.getSelectionModel().getSelectedItem())));
+                account.setPermission(permissionRepository.getOne(1l));
+                account.setPassword(encryption.encode(password.getText()));
+                account.setUsername(username.getText());
+                accountRepository.save(account);
+
+                Employee employee = new Employee();
+                employee.setAddress(address);
+                employee.setPosition(position.getText());
+                employee.setEmploymentDate(new Date());
+                employee.setSalary(Double.valueOf(salary.getText()));
+                employee.setAccount(account);
+                employeeRepository.save(employee);
+            }
+        }else{
+            accountService.fillFieldError();
+        }
+
+
 
         fillClientData();
 
@@ -272,6 +300,7 @@ public class EmployeesManagmentController {
         position.clear();
         salary.clear();
         password.clear();
+        groupCombo.getItems().clear();
 
 
     }
@@ -284,6 +313,10 @@ public class EmployeesManagmentController {
     @FXML
     void editClientClicked(){
         if(StoredData.isAdmin()){
+            List<Bracket> allBrackets = bracketRepository.findAll();
+            for(Bracket br : allBrackets){
+                groupCombo.getItems().add(String.valueOf(br.getId()));
+            }
             employee = employeeRepository.getOne(employees.get(listViewSelectedIndex).getId());
 
             name.setText(employee.getAddress().getName());
@@ -299,6 +332,7 @@ public class EmployeesManagmentController {
             salary.setText(String.valueOf(employee.getSalary()));
             position.setText(String.valueOf(employee.getSalary()));
             password.setText("");
+            groupCombo.getSelectionModel().select(String.valueOf(employee.getAccount().getBracket().getId()));
 
             listViewPane.setVisible(false);
             addClientBtn.setVisible(false);
@@ -317,9 +351,7 @@ public class EmployeesManagmentController {
     @FXML
     void deleteClientClicked(){
 
-
-
-        if(StoredData.isAdmin()){
+    if(StoredData.isAdmin()){
 
             Employee deleteEmployee = employeeRepository.getOne(employees.get(listViewSelectedIndex).getId());
             boolean canDelete = true;
@@ -364,17 +396,17 @@ public class EmployeesManagmentController {
         employees = employeeRepository.findAll();
 
 
-        Label label[] = new Label[employees.size()*6];
-        HBox hBox[] = new HBox[employees.size()*6];
-        HBox hBoxBig[] = new HBox[employees.size()];
-        VBox vBox[] = new VBox[employees.size()];
-        HBox hBoxForImage[] = new HBox[employees.size()];
+        Label label[] = new Label[employees.size()*6+1];
+        HBox hBox[] = new HBox[employees.size()*6+1];
+        HBox hBoxBig[] = new HBox[employees.size()+1];
+        VBox vBox[] = new VBox[employees.size()+1];
+        HBox hBoxForImage[] = new HBox[employees.size()+1];
 
-        Label idLabel[] = new Label[employees.size()];
-        Label nameLabel[] = new Label[employees.size()];
-        Label surnameLabel[] = new Label[employees.size()];
-        Label emailLabel[] = new Label[employees.size()];
-        Label phoneLabel[] = new Label[employees.size()];
+        Label idLabel[] = new Label[employees.size()+1];
+        Label nameLabel[] = new Label[employees.size()+1];
+        Label surnameLabel[] = new Label[employees.size()+1];
+        Label emailLabel[] = new Label[employees.size()+1];
+        Label phoneLabel[] = new Label[employees.size()+1];
 
         ImageView imagePerson[] = new ImageView[employees.size()];
         Image image = new Image("/icons/icons8-customer-100.png");
@@ -395,50 +427,41 @@ public class EmployeesManagmentController {
             emailLabel[y] = new Label("E-Mail: ");
             emailLabel[y].setStyle("-fx-font-weight: bold");
             phoneLabel[y] = new Label("Tel-Number: ");
-            phoneLabel[y].setStyle("-fx-font-weight: bold");
+            phoneLabel[y].setStyle("-fx-font-weight: bold ");
 
             //creating boxes for labels
-            hBox[x] = new HBox();
-            hBox[x+1] = new HBox();
-            hBox[x+2] = new HBox();
-            hBox[x+3] = new HBox();
-            hBox[x+4] = new HBox();
+            for(int i = 0; i<5;i++) {
+                hBox[x+i] = new HBox();
+            }
 
-            // creating labels of client data
             label[x] = new Label(cli.getId().toString());
             label[x+1] = new Label(cli.getAddress().getName());
             label[x+2] = new Label(cli.getAddress().getSurname());
             label[x+3] = new Label(cli.getAddress().getEmail());
             label[x+4] = new Label(cli.getAddress().getTelephoneNumber().toString());
 
-            // adding first label to first HBox
-            hBox[x].getChildren().add(idLabel[y]);
-            hBox[x].getChildren().add(label[x]);
-            // adding second label to second HBox
+
             hBox[x+1].getChildren().add(nameLabel[y]);
             hBox[x+1].getChildren().add(label[x+1]);
-            // adding third label to third HBox
-            hBox[x+2].getChildren().add(surnameLabel[y]);
-            hBox[x+2].getChildren().add(label[x+2]);
-            // adding fourth label to fourth HBox
-            hBox[x+3].getChildren().add(emailLabel[y]);
-            hBox[x+3].getChildren().add(label[x+3]);
-            // adding fifth label to fifth HBox
             hBox[x+4].getChildren().add(phoneLabel[y]);
             hBox[x+4].getChildren().add(label[x+4]);
+            hBox[x].getChildren().add(idLabel[y]);
+            hBox[x].getChildren().add(label[x]);
+            hBox[x+2].getChildren().add(surnameLabel[y]);
+            hBox[x+2].getChildren().add(label[x+2]);
+            hBox[x+3].getChildren().add(emailLabel[y]);
+            hBox[x+3].getChildren().add(label[x+3]);
 
-            //creating VBox for HBoxes
             vBox[y] = new VBox();
-            // adding Hboxes to VBox
             vBox[y].getChildren().add(hBox[x]);
             vBox[y].getChildren().add(hBox[x+1]);
             vBox[y].getChildren().add(hBox[x+2]);
             vBox[y].getChildren().add(hBox[x+3]);
             vBox[y].getChildren().add(hBox[x+4]);
 
+            hBoxBig[z] = new HBox();
             hBoxForImage[y] = new HBox();
             imagePerson[y] = new ImageView();
-            hBoxBig[z] = new HBox();
 
             imagePerson[y].setImage(image);
 
@@ -446,7 +469,6 @@ public class EmployeesManagmentController {
             hBoxForImage[y].getChildren().add(imagePerson[y]);
             hBoxForImage[y].getChildren().add(vBox[y]);
 
-            hBoxBig[z].getChildren().add(hBoxForImage[y]);
             listViewPane.getItems().add(hBoxForImage[y]);
 
             if(y%2 == 1){
@@ -461,8 +483,6 @@ public class EmployeesManagmentController {
 
         }
 
-
-        // listViewPane.getItems().add(hBoxBig);
 
     }
 }

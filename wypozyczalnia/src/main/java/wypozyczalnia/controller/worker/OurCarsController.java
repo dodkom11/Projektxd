@@ -1,6 +1,5 @@
 package wypozyczalnia.controller.worker;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -15,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import wypozyczalnia.config.StoredData;
 import wypozyczalnia.model.Car;
-import wypozyczalnia.repository.AddressRepository;
 import wypozyczalnia.repository.CarRepository;
-import wypozyczalnia.repository.ClientRepository;
 import wypozyczalnia.service.AccountService;
 import wypozyczalnia.utils.SceneManager;
 import javafx.scene.input.MouseEvent;
@@ -37,13 +34,8 @@ public class OurCarsController {
     @Autowired
     private AccountService accountService;
     @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
     private CarRepository carRepository;
 
-    private GridPane gridPane;
 
     List<Car> cars;
 
@@ -51,8 +43,6 @@ public class OurCarsController {
 
     @FXML
     private Pane addCarPane;
-    @FXML
-    private AnchorPane carPane;
     @FXML
     private TextField brand;
     @FXML
@@ -160,7 +150,6 @@ public class OurCarsController {
             groupTask.setText("Tasks");
         }
         fillClientData();
-
     }
 
     @FXML
@@ -181,7 +170,6 @@ public class OurCarsController {
         }else {
             newCar = new Car();
         }
-
 
         newCar.setBrand(brand.getText());
         newCar.setCapacity(Float.valueOf(capacity.getText()));
@@ -209,8 +197,6 @@ public class OurCarsController {
         addCarBtn.setVisible(true);
         editCarBtn.setVisible(true);
         deleteCarBtn.setVisible(true);
-
-
     }
 
     @FXML
@@ -238,12 +224,10 @@ public class OurCarsController {
 
             addCarPane.setVisible(true);
 
-
             edit = true;
         }else{
             accountService.showError();
         }
-
 
     }
 
@@ -267,20 +251,16 @@ public class OurCarsController {
     }
 
 
-
     private void fillClientData(){
         listViewPane.getItems().clear();
 
         cars = carRepository.findAll();
-
 
         Label label[] = new Label[cars.size()*6];
         HBox hBox[] = new HBox[cars.size()*6];
         HBox hBoxBig[] = new HBox[cars.size()];
         VBox vBox[] = new VBox[cars.size()];
         HBox hBoxForImage[] = new HBox[cars.size()];
-
-
 
         Label idLabel[] = new Label[cars.size()];
         Label brandLabel[] = new Label[cars.size()];
@@ -290,7 +270,6 @@ public class OurCarsController {
 
         ImageView imagePerson[] = new ImageView[cars.size()];
         Image image = new Image("/icons/icons8-car-100.png");
-
 
         int x = 0;
         int y = 0;
@@ -310,63 +289,45 @@ public class OurCarsController {
             priceLabel[y] = new Label("Price: ");
             priceLabel[y].setStyle("-fx-font-weight: bold");
 
-            //creating boxes for labels
             hBox[x] = new HBox();
             hBox[x+1] = new HBox();
             hBox[x+2] = new HBox();
             hBox[x+3] = new HBox();
             hBox[x+4] = new HBox();
 
-            // creating labels of client data
             label[x] = new Label(cli.getId().toString());
             label[x+1] = new Label(cli.getBrand());
             label[x+2] = new Label(cli.getModel());
             label[x+3] = new Label(String.valueOf(cli.getCapacity()));
             label[x+4] = new Label(String.valueOf(cli.getPrice()));
 
-            // adding first label to first HBox
             hBox[x].getChildren().add(idLabel[y]);
             hBox[x].getChildren().add(label[x]);
-            // adding second label to second HBox
             hBox[x+1].getChildren().add(brandLabel[y]);
             hBox[x+1].getChildren().add(label[x+1]);
-            // adding third label to third HBox
             hBox[x+2].getChildren().add(modelLabel[y]);
             hBox[x+2].getChildren().add(label[x+2]);
-            // adding fourth label to fourth HBox
             hBox[x+3].getChildren().add(capacityLabel[y]);
             hBox[x+3].getChildren().add(label[x+3]);
-            // adding fifth label to fifth HBox
             hBox[x+4].getChildren().add(priceLabel[y]);
             hBox[x+4].getChildren().add(label[x+4]);
 
-            //creating VBox for HBoxes
             vBox[y] = new VBox();
 
-            // adding Hboxes to VBox
             for(int i = 0; i < 5 ;i++){
                 vBox[y].getChildren().add(hBox[x+i]);
             }
 
-
-
-            hBoxForImage[y] = new HBox();
             imagePerson[y] = new ImageView();
-            hBoxBig[z] = new HBox();
+            hBoxForImage[y] = new HBox();
 
-            imagePerson[y].setImage(image);
-
-
-            hBoxForImage[y].getChildren().add(imagePerson[y]);
             hBoxForImage[y].getChildren().add(vBox[y]);
+            imagePerson[y].setImage(image);
+            hBoxForImage[y].getChildren().add(imagePerson[y]);
 
-            hBoxBig[z].getChildren().add(hBoxForImage[y]);
             listViewPane.getItems().add(hBoxForImage[y]);
 
-            //gridPane.add(hBoxForImage[y], y%2 , z);
             if(y%2 == 1){
-
-
                 z++;
             }
 
@@ -374,9 +335,6 @@ public class OurCarsController {
             x+=5;
 
         }
-
-
-        // listViewPane.getItems().add(hBoxBig);
 
     }
 }

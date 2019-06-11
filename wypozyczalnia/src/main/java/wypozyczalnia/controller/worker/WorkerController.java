@@ -80,8 +80,6 @@ public class WorkerController {
     @FXML
     private Label panelLabel;
     @FXML
-    private Label mainTitleLabel;
-    @FXML
     private ImageView plusBtn;
 
     private Task task;
@@ -277,10 +275,6 @@ public class WorkerController {
 
         fillComboBox();
         fillTask();
-
-
-
-
     }
 
     @Autowired

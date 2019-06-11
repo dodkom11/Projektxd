@@ -111,8 +111,6 @@ public class RentCarController{
     @FXML
     private Label panelLabel;
     @FXML
-    private Label mainTitleLabel;
-    @FXML
     private Label errorLabel;
     @FXML
     private Label groupTask;
@@ -422,9 +420,7 @@ public class RentCarController{
 
     private void fillCarList(){
         carListView.getItems().clear();
-        // create hbox
         HBox hBox[] = new HBox[filteredCars.size()];
-        // create image and vbox
         ImageView carImage[] = new ImageView[filteredCars.size()];
         Button btnRent[] = new Button[filteredCars.size()];
         VBox vBox[] = new VBox[filteredCars.size()];
@@ -452,19 +448,16 @@ public class RentCarController{
             label[x*7 + 6] = new Label("  Price/day: " + car.getPrice());
 
 
-            // fill image and vbox
             carImage[x].setImage(image);
 
             for(int i = 0; i < 7; i++){
                 vBox[x].getChildren().add(label[x*7+i]);
             }
 
-            // add image and vbox to hbox
             hBox[x].getChildren().add(carImage[x]);
             hBox[x].getChildren().add(vBox[x]);
             hBox[x].getChildren().add(btnRent[x]);
 
-            // add hbox to listview
             carListView.getItems().add(hBox[x]);
 
             x++;
