@@ -15,6 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import wypozyczalnia.validation.NumberTextField?>
+<?import wypozyczalnia.validation.NameTextField?>
+<?import wypozyczalnia.validation.ZipCodeTextField?>
 <VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.ClientManagementController">
     <children>
         <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
@@ -229,7 +232,7 @@
                                  <children>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="name" prefHeight="32.0" prefWidth="294.0" promptText="name" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NameTextField fx:id="name" prefHeight="32.0" prefWidth="294.0" promptText="name" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -237,7 +240,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="surname" prefHeight="32.0" prefWidth="294.0" promptText="surname" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NameTextField fx:id="surname" prefHeight="32.0" prefWidth="294.0" promptText="surname" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -245,7 +248,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="pesel" prefHeight="32.0" prefWidth="294.0" promptText="pesel" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NumberTextField fx:id="pesel" prefHeight="32.0" prefWidth="294.0" promptText="pesel" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -253,7 +256,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="city" prefHeight="32.0" prefWidth="294.0" promptText="city" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NameTextField fx:id="city" prefHeight="32.0" prefWidth="294.0" promptText="city" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -261,7 +264,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="street" prefHeight="32.0" prefWidth="294.0" promptText="street" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NameTextField fx:id="street" prefHeight="32.0" prefWidth="294.0" promptText="street" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -269,7 +272,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="houseNumber" prefHeight="32.0" prefWidth="294.0" promptText="house number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NumberTextField fx:id="houseNumber" prefHeight="32.0" prefWidth="294.0" promptText="house number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -277,7 +280,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="zipCode" prefHeight="32.0" prefWidth="294.0" promptText="zip code" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NumberTextField fx:id="zipCode" prefHeight="32.0" prefWidth="294.0" promptText="zip code" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -285,7 +288,7 @@
                                     </HBox>
                                     <HBox prefHeight="18.0" prefWidth="300.0" style="-fx-border-color: black; -fx-border-width: 0px 0px 2px 0px;">
                                        <children>
-                                          <TextField fx:id="telNumber" prefHeight="32.0" prefWidth="294.0" promptText="telephone number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
+                                          <NumberTextField fx:id="telNumber" prefHeight="32.0" prefWidth="294.0" promptText="telephone number" style="-fx-background-color: transparent; -fx-prompt-text-fill: #2f2f2fa3;" />
                                        </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
@@ -301,7 +304,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <Button layoutX="92.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#confirmAddClicked" prefHeight="35.0" prefWidth="109.0" styleClass="btnSignIn" text="Confirm">
+                              <Button fx:id="confirmBtn" layoutX="92.0" layoutY="273.0" mnemonicParsing="false" onMouseClicked="#confirmAddClicked" prefHeight="35.0" prefWidth="109.0" styleClass="btnSignIn" text="Confirm">
                                  <graphic>
                                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                        <image>

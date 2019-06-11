@@ -1,5 +1,6 @@
 package wypozyczalnia.controller;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -23,7 +24,9 @@ import javafx.scene.input.MouseEvent;
 import wypozyczalnia.utils.SceneType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ClientManagementController {
@@ -80,6 +83,8 @@ public class ClientManagementController {
     private Label groupTask;
     @FXML
     private HBox employeesBtn;
+    @FXML
+    private Button confirmBtn;
 
     @FXML
     void dragged(MouseEvent event) {
@@ -165,7 +170,22 @@ public class ClientManagementController {
             employeesBtn.setVisible(false);
             groupTask.setText("Tasks");
             panelLabel.setText("Worker Panel");
+            deleteClientBtn.setVisible(false);
+            editClientBtn.setVisible(false);
         }
+
+        // Bit of a hack. Probably need a ValidationBinding extends BooleanBinding with a message property:
+        confirmBtn.disableProperty()
+                .bind(name.textProperty().isEmpty()
+                .or(surname.textProperty().isEmpty())
+                .or(pesel.textProperty().isEmpty())
+                .or(city.textProperty().isEmpty())
+                .or(street.textProperty().isEmpty())
+                .or(houseNumber.textProperty().isEmpty())
+                .or(zipCode.textProperty().isEmpty())
+                .or(telNumber.textProperty().isEmpty())
+                .or(eMail.textProperty().isEmpty())
+                );
 
         fillClientData();
     }

@@ -86,6 +86,9 @@ public class WorkerController {
 
     private Task newTask;
 
+
+
+
     @FXML
     void dragged(MouseEvent event){
         Node node = (Node) event.getSource();

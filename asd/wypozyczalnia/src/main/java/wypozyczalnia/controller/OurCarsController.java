@@ -145,6 +145,8 @@ public class OurCarsController {
             panelLabel.setText("Worker Panel");
             employeesBtn.setVisible(false);
             groupTask.setText("Tasks");
+            editCarBtn.setVisible(false);
+            deleteCarBtn.setVisible(false);
         }
         fillClientData();
     }
@@ -210,24 +212,28 @@ public class OurCarsController {
     @FXML
     void editCarClicked(){
         if(StoredData.isAdmin()) {
-            car = carRepository.getOne(cars.get(listViewSelectedIndex).getId());
+            if (!listViewPane.getSelectionModel().isEmpty()) {
+                car = carRepository.getOne(cars.get(listViewSelectedIndex).getId());
 
-            brand.setText(car.getBrand());
-            model.setText(car.getModel());
-            productionYear.setText(String.valueOf(car.getProductionYear()));
-            vin.setText(car.getVin());
-            capacity.setText(String.valueOf(car.getCapacity()));
-            type.setText(car.getType());
-            price.setText(String.valueOf(car.getPrice()));
+                brand.setText(car.getBrand());
+                model.setText(car.getModel());
+                productionYear.setText(String.valueOf(car.getProductionYear()));
+                vin.setText(car.getVin());
+                capacity.setText(String.valueOf(car.getCapacity()));
+                type.setText(car.getType());
+                price.setText(String.valueOf(car.getPrice()));
 
-            listViewPane.setVisible(false);
-            addCarBtn.setVisible(false);
-            editCarBtn.setVisible(false);
-            deleteCarBtn.setVisible(false);
+                listViewPane.setVisible(false);
+                addCarBtn.setVisible(false);
+                editCarBtn.setVisible(false);
+                deleteCarBtn.setVisible(false);
 
-            addCarPane.setVisible(true);
+                addCarPane.setVisible(true);
 
-            edit = true;
+                edit = true;
+            } else {
+                accountService.simpleError();
+            }
         }else{
             accountService.showError();
         }
@@ -241,11 +247,16 @@ public class OurCarsController {
     void deleteCarClicked(){
 
         if(StoredData.isAdmin()){
+            if (!listViewPane.getSelectionModel().isEmpty()) {
 
-            Car deleteCar = carRepository.getOne(cars.get(listViewSelectedIndex).getId());
+                Car deleteCar = carRepository.getOne(cars.get(listViewSelectedIndex).getId());
 
-            carRepository.delete(deleteCar);
-            fillClientData();
+                carRepository.delete(deleteCar);
+                fillClientData();
+            } else {
+                accountService.simpleError();
+            }
+
         }else{
             accountService.showError();
         }
@@ -329,9 +340,10 @@ public class OurCarsController {
             imagePerson[y] = new ImageView();
             hBoxForImage[y] = new HBox();
 
-            hBoxForImage[y].getChildren().add(vBox[y]);
             imagePerson[y].setImage(image);
             hBoxForImage[y].getChildren().add(imagePerson[y]);
+
+            hBoxForImage[y].getChildren().add(vBox[y]);
 
             listViewPane.getItems().add(hBoxForImage[y]);
 

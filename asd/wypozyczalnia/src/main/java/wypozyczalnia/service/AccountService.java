@@ -75,8 +75,8 @@ public class AccountService {
     public void simpleError(){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Something went wrong :(");
-        alert.setContentText("...");
+        alert.setHeaderText("In order to change or delete, you need to select it");
+        alert.setContentText("Try Again!");
 
         alert.showAndWait();
     }

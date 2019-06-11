@@ -318,36 +318,41 @@ public class EmployeesManagementController {
     @FXML
     void editClientClicked(){
         if(StoredData.isAdmin()){
-            List<Bracket> allBrackets = bracketRepository.findAll();
-            for(Bracket br : allBrackets){
-                groupCombo.getItems().add(String.valueOf(br.getId()));
+            if (!listViewPane.getSelectionModel().isEmpty()) {
+                List<Bracket> allBrackets = bracketRepository.findAll();
+                for(Bracket br : allBrackets){
+                    groupCombo.getItems().add(String.valueOf(br.getId()));
+                }
+                employee = employeeRepository.getOne(employees.get(listViewSelectedIndex).getId());
+
+                name.setText(employee.getAddress().getName());
+                surname.setText(employee.getAddress().getSurname());
+                eMail.setText(employee.getAddress().getEmail());
+                city.setText(employee.getAddress().getCity());
+                pesel.setText(employee.getAddress().getPesel());
+                houseNumber.setText(String.valueOf(employee.getAddress().getHouseNumber()));
+                zipCode.setText(employee.getAddress().getZipCode());
+                telNumber.setText(String.valueOf(employee.getAddress().getTelephoneNumber()));
+                street.setText(employee.getAddress().getStreet());
+                username.setText(employee.getAccount().getUsername());
+                salary.setText(String.valueOf(employee.getSalary()));
+                position.setText(String.valueOf(employee.getSalary()));
+                password.setText("");
+                groupCombo.getSelectionModel().select(String.valueOf(employee.getAccount().getBracket().getId()));
+
+                listViewPane.setVisible(false);
+                addClientBtn.setVisible(false);
+
+                editClientBtn.setVisible(false);
+                deleteClientBtn.setVisible(false);
+
+
+                addClientPane.setVisible(true);
+                edit = true;
+            } else {
+                accountService.simpleError();
             }
-            employee = employeeRepository.getOne(employees.get(listViewSelectedIndex).getId());
 
-            name.setText(employee.getAddress().getName());
-            surname.setText(employee.getAddress().getSurname());
-            eMail.setText(employee.getAddress().getEmail());
-            city.setText(employee.getAddress().getCity());
-            pesel.setText(employee.getAddress().getPesel());
-            houseNumber.setText(String.valueOf(employee.getAddress().getHouseNumber()));
-            zipCode.setText(employee.getAddress().getZipCode());
-            telNumber.setText(String.valueOf(employee.getAddress().getTelephoneNumber()));
-            street.setText(employee.getAddress().getStreet());
-            username.setText(employee.getAccount().getUsername());
-            salary.setText(String.valueOf(employee.getSalary()));
-            position.setText(String.valueOf(employee.getSalary()));
-            password.setText("");
-            groupCombo.getSelectionModel().select(String.valueOf(employee.getAccount().getBracket().getId()));
-
-            listViewPane.setVisible(false);
-            addClientBtn.setVisible(false);
-
-            editClientBtn.setVisible(false);
-            deleteClientBtn.setVisible(false);
-
-
-            addClientPane.setVisible(true);
-            edit = true;
         }else{
             accountService.showError();
         }
@@ -357,7 +362,7 @@ public class EmployeesManagementController {
     void deleteClientClicked(){
 
     if(StoredData.isAdmin()){
-
+        if (!listViewPane.getSelectionModel().isEmpty()) {
             Employee deleteEmployee = employeeRepository.getOne(employees.get(listViewSelectedIndex).getId());
             boolean canDelete = true;
             List<Bracket> allBrackets = bracketRepository.findAll();
@@ -382,6 +387,10 @@ public class EmployeesManagementController {
             }else{
                 accountService.showDeleteError();
             }
+        } else {
+            accountService.simpleError();
+        }
+
         }else{
             accountService.showError();
         }

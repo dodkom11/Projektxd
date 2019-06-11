@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.EmployeesManagmentController">
+<VBox style="-fx-background-color: transparent;" stylesheets="@../../styles/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wypozyczalnia.controller.EmployeesManagementController">
     <children>
         <AnchorPane maxHeight="590.0" maxWidth="790.0" minHeight="590.0" minWidth="790.0" onMouseDragged="#dragged" onMousePressed="#pressed" onMouseReleased="#released" prefHeight="590.0" prefWidth="790.0" styleClass="parent">
             <children>
