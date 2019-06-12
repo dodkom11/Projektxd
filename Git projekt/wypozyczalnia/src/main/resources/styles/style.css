@@ -1,0 +1,54 @@
+.back {
+    -fx-background-image: url(/images/bgmain.jpg);
+    -fx-background-size: cover;
+}
+.worker {
+    -fx-background-image: url(/images/bmw-background.jpg);
+    -fx-background-size: cover;
+}
+.parent {
+    -fx-background-color: #fff;
+}
+.sidebar {
+    -fx-background-color: #333645;
+}
+.btns {
+    -fx-background-color: transparent;
+}
+.btns:hover {
+    -fx-background-color: #202332;
+}
+.btnMenu {
+    -fx-background-color: transparent;
+}
+.btnMenu:hover {
+    -fx-background-color: #2f2f2fa3;
+}
+.btnSignIn {
+    -fx-background-color: #2f2f2fa3;
+    -fx-background-radius: 100;
+    -fx-text-fill: white;
+    -fx-font-family: Quicksand;
+    -fx-font-weight: bold;
+}
+.btnSignIn:hover {
+    -fx-background-color: #0f0f0fa3;
+    -fx-background-radius: 100;
+    -fx-text-fill: white;
+    -fx-font-family: Quicksand;
+    -fx-font-weight: bold;
+}
+.box {
+    -fx-border-color: #7C8184;
+    -fx-border-width: 1px 0px 0px 0px;
+}
+.list-view, .split-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.image:hover{
+    -fx-opacity: 1;
+}
+.image{
+    -fx-opacity: 0.5;
+}
